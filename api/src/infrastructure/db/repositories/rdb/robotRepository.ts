@@ -1,23 +1,29 @@
-import prisma from "./sqlite";
-import { IRobotRepository } from "../../domain/robot/IRobotRepository";
-import { Robot } from "../../domain/robot/Robot";
+import prisma from "../../clients";
+import { IRobotRepository } from "../../../../domain/robot/IRobotRepository";
+import { Robot } from "../../../../domain/robot/Robot";
+import { RobotGetPayload } from "../../../../generated/prisma/models/Robot";
 
 /**
- * Robotリポジトリ実装
+ * Prismaのselect結果の型を取得
+ */
+type RobotSelectResult = RobotGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    status: true;
+    currentNodeId: true;
+  };
+}>;
+
+/**
+ * Robotリポジトリ実装（RDB用）
  * DomainのIRobotRepositoryを実装し、Prismaを使用してデータベースアクセスを行う
  */
 export class RobotRepository implements IRobotRepository {
   /**
    * DB rowからRobotエンティティに変換
    */
-  private toDomain(
-    row: {
-      id: number;
-      name: string;
-      status: string;
-      currentNodeId: number | null;
-    }
-  ): Robot {
+  private toDomain(row: RobotSelectResult): Robot {
     return new Robot(
       row.id,
       row.name,
