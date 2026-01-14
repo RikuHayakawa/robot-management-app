@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm run prebuild && tsc",
+    "prebuild": "prisma generate",
     "dev": "ts-node src/server.ts",
     "start": "node dist/server.js",
+    "postinstall": "pnpm rebuild better-sqlite3 && prisma generate",
+    "setup": "pnpm install && pnpm prisma:migrate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
