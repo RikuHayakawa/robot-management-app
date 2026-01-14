@@ -1,0 +1,29 @@
+import { vi } from "vitest";
+import { IRobotRepository } from "../../../src/domain/robot/IRobotRepository";
+import { Robot } from "../../../src/domain/robot/Robot";
+
+/**
+ * IRobotRepositoryのモック実装
+ * テストで使用するモックリポジトリ
+ */
+export function createMockRobotRepository(): IRobotRepository {
+  return {
+    findById: vi.fn(),
+    findAll: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  } as unknown as IRobotRepository;
+}
+
+/**
+ * モック用のヘルパー関数
+ */
+export function createMockRobot(overrides?: Partial<Robot>): Robot {
+  return new Robot(
+    overrides?.id ?? 1,
+    overrides?.name ?? "TestRobot",
+    overrides?.status ?? "idle",
+    overrides?.currentNodeId ?? null
+  );
+}
