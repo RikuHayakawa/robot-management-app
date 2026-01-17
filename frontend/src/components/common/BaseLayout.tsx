@@ -8,7 +8,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
     <div className="flex h-screen overflow-hidden">
       <PageSidebar />
 
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <main className="flex flex-1 flex-col overflow-hidden bg-background">
         <div className="flex-1 overflow-y-auto">{children}</div>
       </main>
     </div>

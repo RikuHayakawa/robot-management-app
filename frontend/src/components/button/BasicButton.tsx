@@ -11,7 +11,7 @@ const button = tv({
     variant: {
       primary: 'bg-primary hover:brightness-110',
       secondary: 'bg-gray-500 hover:bg-gray-600',
-      destructive: 'bg-[#DC143C] hover:opacity-80',
+      destructive: 'bg-destructive hover:opacity-80',
     },
   },
   defaultVariants: {
