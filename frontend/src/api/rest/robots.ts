@@ -43,7 +43,7 @@ export class RobotsApi {
   async deleteRobot(path: ApiSchemaPaths['/robots/{id}']['delete']['parameters']['path']) {
     return (
       await this.apiClient.delete<
-        ApiSchemaPaths['/robots/{id}']['delete']['responses'][200]['content']['application/json']
+        ApiSchemaPaths['/robots/{id}']['delete']['responses'][204]['content']
       >(`/robots/${path.id}`)
     ).data;
   }
