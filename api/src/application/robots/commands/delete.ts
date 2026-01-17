@@ -1,4 +1,4 @@
-import { IRobotRepository } from "../../../../domain/robot/IRobotRepository";
+import { IRobotRepository } from "../../../domain/robots/IRobotRepository";
 
 /**
  * Robot削除Service

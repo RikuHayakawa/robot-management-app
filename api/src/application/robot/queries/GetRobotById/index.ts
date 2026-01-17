@@ -1,1 +1,0 @@
-export { GetRobotByIdService } from "./GetRobotByIdService";

@@ -1,6 +1,9 @@
 import { IocContainer } from "@tsoa/runtime";
-import { CreateRobotService, UpdateRobotService, DeleteRobotService } from "../../application/robot/commands";
-import { GetAllRobotsService, GetRobotByIdService } from "../../application/robot/queries";
+import { CreateRobotService } from "../../application/robots/commands/create";
+import { UpdateRobotService } from "../../application/robots/commands/update";
+import { DeleteRobotService } from "../../application/robots/commands/delete";
+import { GetAllRobotsService } from "../../application/robots/queries/getAll";
+import { GetRobotByIdService } from "../../application/robots/queries/getById";
 import { robotRepository } from "../db/repositories/rdb/robotRepository";
 import { RobotController } from "../../presentation/http/controllers/robotController";
 import { ServiceIdentifier } from "tsoa";

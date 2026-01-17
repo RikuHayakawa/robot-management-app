@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { CreateRobotService } from "../../../../../../src/application/robot/commands/CreateRobot/CreateRobotService";
-import { IRobotRepository } from "../../../../../../src/domain/robot/IRobotRepository";
-import { Robot } from "../../../../../../src/domain/robot/Robot";
+import { IRobotRepository } from "../../../../../../src/domain/robots/IRobotRepository";
+import { Robot } from "../../../../../../src/domain/robots/Robot";
 import { CreateRobotInputDto } from "../../../../../../src/application/robot/dto/CreateRobotInputDto";
 import { CreateRobotResultDto } from "../../../../../../src/application/robot/dto/CreateRobotResultDto";
 import {

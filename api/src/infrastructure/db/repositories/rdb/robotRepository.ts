@@ -1,6 +1,6 @@
 import prisma from "../../clients";
-import { IRobotRepository } from "../../../../domain/robot/IRobotRepository";
-import { Robot } from "../../../../domain/robot/Robot";
+import { IRobotRepository } from "../../../../domain/robots/IRobotRepository";
+import { Robot } from "../../../../domain/robots/Robot";
 import { RobotGetPayload } from "../../../../generated/prisma/models/Robot";
 
 /**
@@ -10,8 +10,7 @@ type RobotSelectResult = RobotGetPayload<{
   select: {
     id: true;
     name: true;
-    status: true;
-    currentNodeId: true;
+    isActive: true;
   };
 }>;
 
@@ -27,8 +26,7 @@ export class RobotRepository implements IRobotRepository {
     return new Robot(
       row.id,
       row.name,
-      row.status as "idle" | "moving",
-      row.currentNodeId
+      row.isActive
     );
   }
 
@@ -40,8 +38,7 @@ export class RobotRepository implements IRobotRepository {
       select: {
         id: true,
         name: true,
-        status: true,
-        currentNodeId: true,
+        isActive: true,
       },
     });
     return robots.map((r) => this.toDomain(r));
@@ -56,8 +53,7 @@ export class RobotRepository implements IRobotRepository {
       select: {
         id: true,
         name: true,
-        status: true,
-        currentNodeId: true,
+        isActive: true,
       },
     });
     if (!robot) {
@@ -73,14 +69,12 @@ export class RobotRepository implements IRobotRepository {
     const created = await prisma.robot.create({
       data: {
         name: robot.name,
-        status: robot.status,
-        currentNodeId: robot.currentNodeId,
+        isActive: robot.isActive,
       },
       select: {
         id: true,
         name: true,
-        status: true,
-        currentNodeId: true,
+        isActive: true,
       },
     });
     return this.toDomain(created);
@@ -94,14 +88,12 @@ export class RobotRepository implements IRobotRepository {
       where: { id: robot.id },
       data: {
         name: robot.name,
-        status: robot.status,
-        currentNodeId: robot.currentNodeId,
+        isActive: robot.isActive,
       },
       select: {
         id: true,
         name: true,
-        status: true,
-        currentNodeId: true,
+        isActive: true,
       },
     });
     return this.toDomain(updated);

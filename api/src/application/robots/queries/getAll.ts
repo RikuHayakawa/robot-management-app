@@ -1,5 +1,5 @@
-import { IRobotRepository } from "../../../../domain/robot/IRobotRepository";
-import { GetRobotByIdResultDto } from "../../dto";
+import { IRobotRepository } from "../../../domain/robots/IRobotRepository";
+import { GetRobotByIdResultDto } from "../dto";
 
 /**
  * Robot一覧取得Service
@@ -17,8 +17,7 @@ export class GetAllRobotsService {
         new GetRobotByIdResultDto(
           robot.id,
           robot.name,
-          robot.status,
-          robot.currentNodeId
+          robot.isActive
         )
     );
   }

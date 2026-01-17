@@ -1,6 +1,6 @@
 import { vi } from "vitest";
-import { IRobotRepository } from "../../../src/domain/robot/IRobotRepository";
-import { Robot } from "../../../src/domain/robot/Robot";
+import { IRobotRepository } from "../../../src/domain/robots/IRobotRepository";
+import { Robot } from "../../../src/domain/robots/Robot";
 
 /**
  * IRobotRepositoryのモック実装

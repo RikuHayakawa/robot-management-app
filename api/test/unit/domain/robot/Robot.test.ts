@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Robot } from "../../../../src/domain/robot/Robot";
+import { Robot } from "../../../../src/domain/robots/Robot";
 
 describe("Robot", () => {
   describe("constructor", () => {

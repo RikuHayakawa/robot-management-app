@@ -1,13 +1,18 @@
 import { Route, Get, Post, Put, Delete, Path, Body, Controller } from "tsoa";
-import { CreateRobotService, UpdateRobotService, DeleteRobotService } from "../../../application/robot/commands";
-import { GetAllRobotsService, GetRobotByIdService } from "../../../application/robot/queries";
+import { CreateRobotService } from "../../../application/robots/commands/create";
+import { UpdateRobotService } from "../../../application/robots/commands/update";
+import { DeleteRobotService } from "../../../application/robots/commands/delete";
+import { GetAllRobotsService } from "../../../application/robots/queries/getAll";
+import { GetRobotByIdService } from "../../../application/robots/queries/getById";
+import { GetRobotByIdResultDto } from "../../../application/robots/dto";
 import {
-  CreateRobotInputDto,
-  UpdateRobotInputDto,
-  GetRobotByIdResultDto,
-} from "../../../application/robot/dto";
-import { RobotResponse } from "../responses/RobotResponse";
-import { CreateRobotRequest, UpdateRobotRequest } from "../requests";
+  RobotResponse,
+  RobotCreateRequest,
+  RobotUpdateRequest,
+  toRobotResponse,
+  toRobotCreateRequest,
+  toRobotUpdateRequest,
+} from "../schema/robots";
 
 /**
  * Robot Controller
@@ -29,7 +34,7 @@ export class RobotController {
   @Get("/")
   public async getAll(): Promise<RobotResponse[]> {
     const result = await this.getAllRobotsService.invoke();
-    return result.map((dto: GetRobotByIdResultDto) => RobotResponse.fromQueryResult(dto));
+    return result.map((dto: GetRobotByIdResultDto) => toRobotResponse(dto));
   }
 
   /**
@@ -41,22 +46,17 @@ export class RobotController {
     if (!result) {
       throw new Error("Robot not found");
     }
-    return RobotResponse.fromQueryResult(result);
+    return toRobotResponse(result);
   }
 
   /**
    * Robot作成
    */
   @Post("/")
-  public async create(@Body() requestBody: CreateRobotRequest): Promise<RobotResponse> {
-    const input = new CreateRobotInputDto(
-      requestBody.name,
-      requestBody.status,
-      requestBody.currentNodeId ?? null
-    );
-
+  public async create(@Body() requestBody: RobotCreateRequest): Promise<RobotResponse> {
+    const input = toRobotCreateRequest(requestBody);
     const result = await this.createRobotService.invoke(input);
-    return RobotResponse.fromCreateResult(result);
+    return toRobotResponse(result);
   }
 
   /**
@@ -65,17 +65,11 @@ export class RobotController {
   @Put("/{id}")
   public async update(
     @Path() id: number,
-    @Body() requestBody: UpdateRobotRequest
+    @Body() requestBody: RobotUpdateRequest
   ): Promise<RobotResponse> {
-    const input = new UpdateRobotInputDto(
-      id,
-      requestBody.name,
-      requestBody.status,
-      requestBody.currentNodeId
-    );
-
+    const input = toRobotUpdateRequest(id, requestBody);
     const result = await this.updateRobotService.invoke(input);
-    return RobotResponse.fromUpdateResult(result);
+    return toRobotResponse(result);
   }
 
   /**
