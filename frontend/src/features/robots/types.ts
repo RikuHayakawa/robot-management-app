@@ -6,3 +6,8 @@ export type RobotWithDates = RobotResponse & {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type RobotFormData = {
+  name: string;
+  isActive: boolean;
+};

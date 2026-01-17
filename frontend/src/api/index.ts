@@ -3,7 +3,7 @@ import { RobotsApi } from './rest/robots';
 
 export * from './rest/types';
 
-const apiClient = ApiClient.getInstance(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001');
+const apiClient = ApiClient.getInstance(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000');
 
 export const api = {
   rest: {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Table, type TableColumn } from '@/components/table/Table';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EyeIcon } from '@/components/svg/EyeIcon';
@@ -11,10 +12,13 @@ import type { RobotWithDates } from '../types';
 import { useRouter } from 'next/navigation';
 import { appPaths } from '@/constants/appPaths';
 import { Loading } from '@/components/common/Loading';
+import { RobotEditModal } from '@/components/modal/RobotEditModal';
 
 export const RobotTable = () => {
   const { data: robots, isLoading } = useRobots();
   const router = useRouter();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedRobot, setSelectedRobot] = useState<RobotWithDates | null>(null);
 
   if (isLoading) {
     return <Loading />;
@@ -33,8 +37,8 @@ export const RobotTable = () => {
   };
 
   const handleEdit = (robot: RobotWithDates) => {
-    // TODO: 編集モーダルを開く
-    console.log('Edit robot:', robot.id);
+    setSelectedRobot(robot);
+    setEditModalOpen(true);
   };
 
   const handleDelete = (robot: RobotWithDates) => {
@@ -111,5 +115,17 @@ export const RobotTable = () => {
     },
   ];
 
-  return <Table columns={columns} data={robots} />;
+  return (
+    <>
+      <Table columns={columns} data={robots} />
+      <RobotEditModal
+        open={editModalOpen}
+        onClose={() => {
+          setEditModalOpen(false);
+          setSelectedRobot(null);
+        }}
+        robot={selectedRobot}
+      />
+    </>
+  );
 };
