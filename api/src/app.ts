@@ -1,5 +1,6 @@
-import express, { Express } from "express";
-import robotRouter from "./presentation/http/routers/robotRouter";
+import express, { Express, Router } from "express";
+import swaggerUi from "swagger-ui-express";
+import { RegisterRoutes } from "./generated/routes";
 
 const app: Express = express();
 
@@ -14,7 +15,16 @@ app.get("/health", (req, res) => {
   });
 });
 
-// REST API ルーター
-app.use("/api/robots", robotRouter);
+// Swagger UI
+try {
+  const swaggerDocument = require(`./generated/swagger.json`);
+  app.use("/docs", swaggerUi.serve);
+  app.get("/docs", swaggerUi.setup(swaggerDocument));
+} catch (error) {
+  console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
+}
+
+// tsoa生成のルーター
+RegisterRoutes(app as Router);
 
 export default app;

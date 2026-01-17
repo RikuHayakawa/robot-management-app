@@ -1,0 +1,30 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/presentation/http/controllers/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "src/generated",
+    "specVersion": 3,
+    "basePath": "/api",
+    "spec": {
+      "title": "Robot Management API",
+      "version": "1.0.0",
+      "description": "API for managing robots",
+      "contact": {
+        "name": "API Support"
+      }
+    },
+    "securityDefinitions": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/generated",
+    "basePath": "/api",
+    "iocModule": "src/infrastructure/ioc/ioc"
+  }
+}

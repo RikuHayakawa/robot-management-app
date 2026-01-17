@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Route, Get, Post, Put, Delete, Path, Body, Controller } from "tsoa";
 import { CreateRobotService, UpdateRobotService, DeleteRobotService } from "../../../application/robot/commands";
 import { GetAllRobotsService, GetRobotByIdService } from "../../../application/robot/queries";
 import {
@@ -7,11 +7,13 @@ import {
   GetRobotByIdResultDto,
 } from "../../../application/robot/dto";
 import { RobotResponse } from "../responses/RobotResponse";
+import { CreateRobotRequest, UpdateRobotRequest } from "../requests";
 
 /**
  * Robot Controller
  * Application Serviceを呼び出し、DTO変換を行う
  */
+@Route("robots")
 export class RobotController {
   constructor(
     private getAllRobotsService: GetAllRobotsService,
@@ -24,111 +26,63 @@ export class RobotController {
   /**
    * Robot一覧取得
    */
-  async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const result = await this.getAllRobotsService.invoke();
-      const responses = result.map((dto: GetRobotByIdResultDto) => RobotResponse.fromQueryResult(dto));
-      res.json(responses);
-    } catch (error) {
-      next(error);
-    }
+  @Get("/")
+  public async getAll(): Promise<RobotResponse[]> {
+    const result = await this.getAllRobotsService.invoke();
+    return result.map((dto: GetRobotByIdResultDto) => RobotResponse.fromQueryResult(dto));
   }
 
   /**
    * Robot詳細取得
    */
-  async getById(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const idParam = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-      const id = parseInt(idParam, 10);
-      if (isNaN(id)) {
-        res.status(400).json({ error: "Invalid robot ID" });
-        return;
-      }
-
-      const result = await this.getRobotByIdService.invoke(id);
-      if (!result) {
-        res.status(404).json({ error: "Robot not found" });
-        return;
-      }
-
-      res.json(RobotResponse.fromQueryResult(result));
-    } catch (error) {
-      next(error);
+  @Get("/{id}")
+  public async getById(@Path() id: number): Promise<RobotResponse> {
+    const result = await this.getRobotByIdService.invoke(id);
+    if (!result) {
+      throw new Error("Robot not found");
     }
+    return RobotResponse.fromQueryResult(result);
   }
 
   /**
    * Robot作成
    */
-  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const { name, status, currentNodeId } = req.body;
-      if (!name || !status) {
-        res.status(400).json({ error: "Name and status are required" });
-        return;
-      }
-      if (status !== "idle" && status !== "moving") {
-        res.status(400).json({ error: "Status must be 'idle' or 'moving'" });
-        return;
-      }
+  @Post("/")
+  public async create(@Body() requestBody: CreateRobotRequest): Promise<RobotResponse> {
+    const input = new CreateRobotInputDto(
+      requestBody.name,
+      requestBody.status,
+      requestBody.currentNodeId ?? null
+    );
 
-      const input = new CreateRobotInputDto(
-        name,
-        status,
-        currentNodeId ?? null
-      );
-
-      const result = await this.createRobotService.invoke(input);
-      res.status(201).json(RobotResponse.fromCreateResult(result));
-    } catch (error) {
-      next(error);
-    }
+    const result = await this.createRobotService.invoke(input);
+    return RobotResponse.fromCreateResult(result);
   }
 
   /**
    * Robot更新
    */
-  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const idParam = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-      const id = parseInt(idParam, 10);
-      if (isNaN(id)) {
-        res.status(400).json({ error: "Invalid robot ID" });
-        return;
-      }
+  @Put("/{id}")
+  public async update(
+    @Path() id: number,
+    @Body() requestBody: UpdateRobotRequest
+  ): Promise<RobotResponse> {
+    const input = new UpdateRobotInputDto(
+      id,
+      requestBody.name,
+      requestBody.status,
+      requestBody.currentNodeId
+    );
 
-      const { status, currentNodeId, name } = req.body;
-      const input = new UpdateRobotInputDto(
-        id,
-        name,
-        status,
-        currentNodeId
-      );
-
-      const result = await this.updateRobotService.invoke(input);
-      res.json(RobotResponse.fromUpdateResult(result));
-    } catch (error) {
-      next(error);
-    }
+    const result = await this.updateRobotService.invoke(input);
+    return RobotResponse.fromUpdateResult(result);
   }
 
   /**
    * Robot削除
    */
-  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const idParam = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-      const id = parseInt(idParam, 10);
-      if (isNaN(id)) {
-        res.status(400).json({ error: "Invalid robot ID" });
-        return;
-      }
-
-      await this.deleteRobotService.invoke(id);
-      res.status(204).send();
-    } catch (error) {
-      next(error);
-    }
+  @Delete("/{id}")
+  public async delete(@Path() id: number): Promise<void> {
+    await this.deleteRobotService.invoke(id);
   }
 }
