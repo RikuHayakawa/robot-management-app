@@ -5,7 +5,7 @@
   "spec": {
     "outputDirectory": "src/generated",
     "specVersion": 3,
-    "basePath": "/api",
+    "basePath": "/",
     "spec": {
       "title": "Robot Management API",
       "version": "1.0.0",
@@ -24,7 +24,7 @@
   },
   "routes": {
     "routesDir": "src/generated",
-    "basePath": "/api",
+    "basePath": "/",
     "iocModule": "src/infrastructure/ioc/ioc"
   }
 }

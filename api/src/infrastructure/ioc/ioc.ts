@@ -21,8 +21,7 @@ function get<T>(controller: ServiceIdentifier<T>): T {
   const deleteRobotService = new DeleteRobotService(robotRepository);
 
   // Controllerインスタンスを生成
-  // tsoaはコントローラーのクラスコンストラクタを渡す
-  if (controller instanceof RobotController) {
+  if (controller === RobotController) {
     return new RobotController(
       getAllRobotsService,
       getRobotByIdService,

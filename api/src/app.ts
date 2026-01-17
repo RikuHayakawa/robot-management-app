@@ -25,6 +25,8 @@ try {
 }
 
 // tsoa生成のルーター
-RegisterRoutes(app as Router);
+const router = Router();
+RegisterRoutes(router);
+app.use(router);
 
 export default app;
