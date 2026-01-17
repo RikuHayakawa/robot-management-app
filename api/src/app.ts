@@ -1,8 +1,21 @@
 import express, { Express, Router } from "express";
+import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./generated/routes";
 
 const app: Express = express();
+
+// CORS設定
+// 環境変数からオリジンを取得（カンマ区切りで複数指定可能）
+const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:3001";
+const allowedOrigins = corsOrigin.split(",").map((origin) => origin.trim());
+
+app.use(
+  cors({
+    origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
+    credentials: true,
+  })
+);
 
 // JSONボディパーサー
 app.use(express.json());
