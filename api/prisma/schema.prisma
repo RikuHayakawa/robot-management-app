@@ -11,38 +11,30 @@ datasource db {
 }
 
 model Robot {
-  id            Int       @id @default(autoincrement())
-  name          String
-  status        String    // "idle" | "moving"
-  currentNodeId Int?
-  currentNode   Node?     @relation("RobotCurrentNode", fields: [currentNodeId], references: [id])
-  runHistories  RunHistory[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           Int           @id @default(autoincrement())
+  name         String
+  isActive     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  waypointLogs WaypointLog[]
 }
 
-model RunHistory {
-  id         Int      @id @default(autoincrement())
-  robotId    Int
-  robot      Robot    @relation(fields: [robotId], references: [id])
-  fromNodeId Int
-  fromNode   Node     @relation("RunHistoryFromNode", fields: [fromNodeId], references: [id])
-  toNodeId   Int
-  toNode     Node     @relation("RunHistoryToNode", fields: [toNodeId], references: [id])
-  startedAt  DateTime
-  finishedAt DateTime?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model WaypointLog {
+  id        Int      @id @default(autoincrement())
+  robotId   Int
+  robot     Robot    @relation(fields: [robotId], references: [id])
+  nodeId    Int
+  node      Node     @relation(fields: [nodeId], references: [id])
+  battery   Int
+  timestamp DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Node {
-  id                    Int           @id @default(autoincrement())
-  name                  String
-  x                     Float
-  y                     Float
-  robotsAsCurrentNode   Robot[]       @relation("RobotCurrentNode")
-  runHistoriesAsFrom    RunHistory[]  @relation("RunHistoryFromNode")
-  runHistoriesAsTo      RunHistory[]  @relation("RunHistoryToNode")
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  id           Int           @id @default(autoincrement())
+  name         String
+  x            Float
+  y            Float
+  waypointLogs WaypointLog[]
 }
