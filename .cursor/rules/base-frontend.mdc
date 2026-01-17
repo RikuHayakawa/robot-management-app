@@ -1,0 +1,44 @@
+---
+alwaysApply: true
+---
+# フロントエンド・アーキテクチャ規約
+
+あなたはNext.js (App Router) を用いた、高度にモジュール化されたフロントエンド開発のエキスパートです。以下の規約を厳守してコードを生成・リファクタリングしてください。
+
+## 1. ディレクトリ構造と責務
+
+プロジェクトは以下のレイヤーで構成されます。物理的なURL（appディレクトリ）にロジックを直接記述することを禁止します。
+
+- **src/app/**: 【Routing層】
+  - 役割: URLパスの定義、Server Componentsでのデータ取得、Metadataの設定。
+  - 規約: UI実装は行わず、`templates/` の呼び出しとPropsの受け渡しのみを行う。
+- **src/templates/**: 【View Composition層】
+  - 役割: 画面全体のレイアウト構成。複数の `features` を配置する。
+  - 規約: 特定のビジネスロジックは持たず、配置（Grid/Flex）と構成に専念する。
+- **src/features/**: 【Functional層】
+  - 役割: 再利用可能な「機能」の単位（例：robot-history, robot-errors）。
+  - 構成: `components/`, `hooks/`, `types.ts` を含む。
+  - 規約: 他の `features` に直接依存してはならない（疎結合）。
+- **src/api/**: 
+
+## 2. APIクライアントの利用
+
+APIアクセスは必ず `src/shared/api` を通じて行ってください。
+
+- **REST**: `src/shared/api/rest/...` を使用。
+- **GraphQL**: `src/shared/api/graphql/...` を使用。
+- **実証実験ルール**: `features` 内の Hooks は `useApiSettings` コンテキストから現在のモード（REST/GraphQL）を取得し、適切にスイッチする実装を行うこと。
+
+## 3. 命名規則と型定義
+- **Hooks**: データの取得ロジックは必ず `features/[feature-name]/hooks/` に集約する。
+
+## 4. コーディングの基本原則
+
+1. **再利用性の確保**: 画面のパスが変わっても `features` ディレクトリを移動させずに済むように設計せよ。
+2. **Server/Clientの分離**: データ取得は可能な限り `app/` (Server Component) で行い、インタラクティブな要素のみを `features` (Client Component) で実装せよ。
+
+
+## 5. 禁止事項
+- `src/app/` 直下に詳細な JSX を記述すること。
+- `features` 間で直接インポートし合うこと（循環参照の防止）。
+- APIクライアントを `features` 内で直接 `new` したり初期化したりすること。

@@ -37,15 +37,6 @@ Infrastructure →（DI により注入）
 - ID は必須・`readonly`
 - Domain は他レイヤーに依存しない
 
-```ts
-class Robot {
-  constructor(
-    public readonly id: number,
-    public readonly name: string,
-    private _status: "idle" | "moving"
-  ) {}
-}
-```
 
 **Repository（Domain）**
 
@@ -103,49 +94,6 @@ Application 層では **以下 2 種類の DTO を必須とする**
 - ビジネスルールは書かない
 - Repository は DI で受け取る
 
-**例：CreateRobot**
-
-```ts
-// application/robot/dto/CreateRobotInputDto.ts
-export class CreateRobotInputDto {
-  constructor(
-    public readonly name: string,
-    public readonly status: "idle" | "moving",
-    public readonly currentNodeId: number | null
-  ) {}
-}
-```
-
-```ts
-// application/robot/dto/CreateRobotResultDto.ts
-export class CreateRobotResultDto {
-  constructor(
-    public readonly id: number,
-    public readonly name: string,
-    public readonly status: "idle" | "moving",
-    public readonly currentNodeId: number | null
-  ) {}
-}
-```
-
-```ts
-// application/robot/robotCommands.ts
-class CreateRobotService {
-  constructor(private repo: IRobotRepository) {}
-
-  async invoke(input: CreateRobotInputDto): Promise<CreateRobotResultDto> {
-    const robot = new Robot(0, input.name, input.status, input.currentNodeId);
-    const saved = await this.repo.create(robot);
-
-    return new CreateRobotResultDto(
-      saved.id,
-      saved.name,
-      saved.status,
-      saved.currentNodeId
-    );
-  }
-}
-```
 
 **禁止事項（Application）**
 
@@ -210,10 +158,8 @@ presentation/
 
 ```
 presentation/http/
-├─ routers/
 ├─ controllers/
-├─ requests/
-├─ responses/
+├─ schema/
 └─ middlewares/
 ```
 
