@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm run prebuild && tsc",
+    "build": "pnpm run prebuild && tsc && cp src/presentation/graphql/schema/schema.graphql dist/presentation/graphql/schema/",
     "prebuild": "prisma generate",
     "dev": "ts-node src/server.ts",
     "start": "node dist/server.js",

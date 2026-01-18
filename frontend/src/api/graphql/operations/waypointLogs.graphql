@@ -1,0 +1,26 @@
+query WaypointLogsByRobotId($id: ID!, $limit: Int, $after: String) {
+  robot(id: $id) {
+    waypointLogs(limit: $limit, after: $after) {
+      edges {
+        node {
+          id
+          robotId
+          nodeId
+          battery
+          timestamp
+          node {
+            id
+            name
+            x
+            y
+          }
+        }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

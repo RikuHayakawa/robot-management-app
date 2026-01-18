@@ -1,0 +1,44 @@
+query Robots($limit: Int, $after: String) {
+  robots(limit: $limit, after: $after) {
+    edges {
+      node {
+        id
+        name
+        isActive
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query Robot($id: ID!) {
+  robot(id: $id) {
+    id
+    name
+    isActive
+  }
+}
+
+mutation CreateRobot($input: CreateRobotInput!) {
+  createRobot(input: $input) {
+    id
+    name
+    isActive
+  }
+}
+
+mutation UpdateRobot($id: ID!, $input: UpdateRobotInput!) {
+  updateRobot(id: $id, input: $input) {
+    id
+    name
+    isActive
+  }
+}
+
+mutation DeleteRobot($id: ID!) {
+  deleteRobot(id: $id)
+}

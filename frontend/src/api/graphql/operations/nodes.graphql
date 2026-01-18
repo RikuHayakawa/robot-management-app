@@ -1,0 +1,26 @@
+query Nodes($limit: Int, $after: String) {
+  nodes(limit: $limit, after: $after) {
+    edges {
+      node {
+        id
+        name
+        x
+        y
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query Node($id: ID!) {
+  node(id: $id) {
+    id
+    name
+    x
+    y
+  }
+}

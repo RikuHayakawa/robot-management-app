@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Robot一覧取得 */
+        /** @description Robot一覧取得（カーソルペジネーション） */
         get: operations["GetAll"];
         put?: never;
         /** @description Robot作成 */
@@ -48,7 +48,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Robotの走行履歴取得（Node情報を含む） */
+        /** @description Robotの走行履歴取得（カーソルペジネーション、Node情報を含む） */
         get: operations["GetWaypointLogs"];
         put?: never;
         post?: never;
@@ -65,7 +65,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Node一覧取得（x, yを除外） */
+        /** @description Node一覧取得（カーソルペジネーション、x, yを除外） */
         get: operations["GetAllNodes"];
         put?: never;
         post?: never;
@@ -112,6 +112,12 @@ export interface components {
             /** @description Robot updated at */
             updatedAt: string;
         };
+        /** @description カーソルペジネーション付きレスポンス */
+        CursorPaginatedResponse_RobotResponse_: {
+            items: components["schemas"]["RobotResponse"][];
+            nextCursor: string | null;
+            hasNextPage: boolean;
+        };
         /** @description Robot作成用リクエスト */
         RobotCreateRequest: {
             /** @description Robot name */
@@ -154,6 +160,12 @@ export interface components {
              */
             timestamp: string;
         };
+        /** @description カーソルペジネーション付きレスポンス */
+        CursorPaginatedResponse_WaypointLogResponse_: {
+            items: components["schemas"]["WaypointLogResponse"][];
+            nextCursor: string | null;
+            hasNextPage: boolean;
+        };
         /** @description Node取得用レスポンス */
         NodeResponse: {
             /**
@@ -174,6 +186,12 @@ export interface components {
              */
             y: number;
         };
+        /** @description カーソルペジネーション付きレスポンス */
+        CursorPaginatedResponse_NodeResponse_: {
+            items: components["schemas"]["NodeResponse"][];
+            nextCursor: string | null;
+            hasNextPage: boolean;
+        };
     };
     responses: never;
     parameters: never;
@@ -185,7 +203,10 @@ export type $defs = Record<string, never>;
 export interface operations {
     GetAll: {
         parameters: {
-            query?: never;
+            query?: {
+                limit?: number;
+                cursor?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -198,7 +219,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RobotResponse"][];
+                    "application/json": components["schemas"]["CursorPaginatedResponse_RobotResponse_"];
                 };
             };
         };
@@ -297,7 +318,10 @@ export interface operations {
     };
     GetWaypointLogs: {
         parameters: {
-            query?: never;
+            query?: {
+                limit?: number;
+                cursor?: string;
+            };
             header?: never;
             path: {
                 id: number;
@@ -312,14 +336,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["WaypointLogResponse"][];
+                    "application/json": components["schemas"]["CursorPaginatedResponse_WaypointLogResponse_"];
                 };
             };
         };
     };
     GetAllNodes: {
         parameters: {
-            query?: never;
+            query?: {
+                limit?: number;
+                cursor?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -332,7 +359,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["NodeResponse"][];
+                    "application/json": components["schemas"]["CursorPaginatedResponse_NodeResponse_"];
                 };
             };
         };
