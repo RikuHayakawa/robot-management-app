@@ -10,7 +10,7 @@
     "start": "node dist/server.js",
     "postinstall": "prisma generate",
     "setup": "pnpm install && pnpm prisma:migrate",
-    "setup:env": "node scripts/setup.js",
+    "setup:env": "cp .env.example .env || true",
     "setup:init": "pnpm setup:env && pnpm install && pnpm prisma:generate && pnpm prisma:migrate && pnpm tsoa:routes && pnpm tsoa:spec",
     "setup:dev": "pnpm setup:init && pnpm dev",
     "prisma:generate": "prisma generate",
