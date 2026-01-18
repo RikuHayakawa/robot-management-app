@@ -13,12 +13,15 @@ import { useRouter } from 'next/navigation';
 import { appPaths } from '@/constants/appPaths';
 import { Loading } from '@/components/common/Loading';
 import { RobotEditModal } from '@/components/modal/RobotEditModal';
+import { RobotDeleteModal } from '@/components/modal/RobotDeleteModal';
 
 export const RobotTable = () => {
   const { data: robots, isLoading } = useRobots();
   const router = useRouter();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRobot, setSelectedRobot] = useState<RobotWithDates | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedRobotForDelete, setSelectedRobotForDelete] = useState<RobotWithDates | null>(null);
 
   if (isLoading) {
     return <Loading />;
@@ -42,8 +45,8 @@ export const RobotTable = () => {
   };
 
   const handleDelete = (robot: RobotWithDates) => {
-    // TODO: 削除確認モーダルを開く
-    console.log('Delete robot:', robot.id);
+    setSelectedRobotForDelete(robot);
+    setDeleteModalOpen(true);
   };
 
   const columns: TableColumn<RobotWithDates>[] = [
@@ -125,6 +128,14 @@ export const RobotTable = () => {
           setSelectedRobot(null);
         }}
         robot={selectedRobot}
+      />
+      <RobotDeleteModal
+        open={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setSelectedRobotForDelete(null);
+        }}
+        robot={selectedRobotForDelete}
       />
     </>
   );
