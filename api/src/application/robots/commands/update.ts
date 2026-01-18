@@ -32,7 +32,9 @@ export class UpdateRobotService {
     return new UpdateRobotResultDto(
       saved.id,
       saved.name,
-      saved.isActive
+      saved.isActive,
+      saved.createdAt!,
+      saved.updatedAt!
     );
   }
 }

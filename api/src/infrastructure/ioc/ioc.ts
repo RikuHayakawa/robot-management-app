@@ -8,6 +8,7 @@ import { GetWaypointLogsByRobotIdService } from "../../application/waypointLogs/
 import { GetNodeByIdService } from "../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../application/nodes/queries/getAll";
 import { robotRepository } from "../db/repositories/robotRepository";
+import { robotQueryService } from "../db/queries/robotQueryService";
 import { nodeQueryService } from "../db/queries/nodeQueryService";
 import { waypointLogQueryService } from "../db/queries/waypointLogQueryService";
 import { RobotController } from "../../presentation/http/controllers/robotController";
@@ -20,8 +21,8 @@ import { ServiceIdentifier } from "tsoa";
  */
 function get<T>(controller: ServiceIdentifier<T>): T {
   // Serviceインスタンスを生成
-  const getAllRobotsService = new GetAllRobotsService(robotRepository);
-  const getRobotByIdService = new GetRobotByIdService(robotRepository);
+  const getAllRobotsService = new GetAllRobotsService(robotQueryService);
+  const getRobotByIdService = new GetRobotByIdService(robotQueryService);
   const createRobotService = new CreateRobotService(robotRepository);
   const updateRobotService = new UpdateRobotService(robotRepository);
   const deleteRobotService = new DeleteRobotService(robotRepository);

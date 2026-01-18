@@ -16,6 +16,16 @@ export interface RobotResponse {
    * Robot is active
    */
   isActive: boolean;
+
+  /**
+   * Robot created at
+   */
+  createdAt: string;
+
+  /**
+   * Robot updated at
+   */
+  updatedAt: string;
 }
 
 /**

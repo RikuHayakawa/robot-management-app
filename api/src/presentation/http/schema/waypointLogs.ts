@@ -26,14 +26,4 @@ export interface WaypointLogResponse {
    * Timestamp
    */
   timestamp: Date;
-
-  /**
-   * Created at
-   */
-  createdAt: Date;
-
-  /**
-   * Updated at
-   */
-  updatedAt: Date;
 }

@@ -2,7 +2,6 @@ import { GetNodeByIdResultDto } from "../../dto";
 
 /**
  * Nodeクエリサービスインターフェース
- * CQRS原則に従い、クエリ専用のインターフェース
  */
 export interface INodeQueryService {
   /**

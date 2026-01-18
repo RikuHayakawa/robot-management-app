@@ -11,6 +11,8 @@ type RobotSelectResult = RobotGetPayload<{
     id: true;
     name: true;
     isActive: true;
+    createdAt: true;
+    updatedAt: true;
   };
 }>;
 
@@ -26,7 +28,9 @@ export class RobotRepository implements IRobotRepository {
     return new Robot(
       row.id,
       row.name,
-      row.isActive
+      row.isActive,
+      row.createdAt,
+      row.updatedAt
     );
   }
 
@@ -39,6 +43,8 @@ export class RobotRepository implements IRobotRepository {
         id: true,
         name: true,
         isActive: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     return robots.map((r) => this.toDomain(r));
@@ -54,6 +60,8 @@ export class RobotRepository implements IRobotRepository {
         id: true,
         name: true,
         isActive: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     if (!robot) {
@@ -75,6 +83,8 @@ export class RobotRepository implements IRobotRepository {
         id: true,
         name: true,
         isActive: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     return this.toDomain(created);
@@ -94,6 +104,8 @@ export class RobotRepository implements IRobotRepository {
         id: true,
         name: true,
         isActive: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     return this.toDomain(updated);

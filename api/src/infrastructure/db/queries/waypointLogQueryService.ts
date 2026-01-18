@@ -6,7 +6,15 @@ import { WaypointLogGetPayload } from "../../../generated/prisma/models/Waypoint
 /**
  * Prismaのselect結果の型を取得
  */
-type WaypointLogSelectResult = WaypointLogGetPayload<{}>;
+type WaypointLogSelectResult = WaypointLogGetPayload<{
+  select: {
+    id: true;
+    robotId: true;
+    nodeId: true;
+    battery: true;
+    timestamp: true;
+  };
+}>;
 
 /**
  * WaypointLogクエリサービス実装
@@ -20,8 +28,13 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
   ): Promise<GetWaypointLogsByRobotIdResultDto[]> {
     const waypointLogs = await prisma.waypointLog.findMany({
       where: { robotId },
-      orderBy: {
-        timestamp: "desc",
+      orderBy: { timestamp: "desc" },
+      select: {
+        id: true,
+        robotId: true,
+        nodeId: true,
+        battery: true,
+        timestamp: true,
       },
     });
 
@@ -33,8 +46,6 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
           log.nodeId,
           log.battery,
           log.timestamp,
-          log.createdAt,
-          log.updatedAt
         )
     );
   }

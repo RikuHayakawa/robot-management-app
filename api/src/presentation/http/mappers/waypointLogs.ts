@@ -13,7 +13,5 @@ export function toWaypointLogResponse(
     nodeId: dto.nodeId,
     battery: dto.battery,
     timestamp: dto.timestamp,
-    createdAt: dto.createdAt,
-    updatedAt: dto.updatedAt,
   };
 }

@@ -21,6 +21,8 @@ export function toRobotResponse(
     id: dto.id,
     name: dto.name,
     isActive: dto.isActive,
+    createdAt: dto.createdAt.toISOString(),
+    updatedAt: dto.updatedAt.toISOString(),
   };
 }
 

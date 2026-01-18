@@ -8,7 +8,5 @@ export class GetWaypointLogsByRobotIdResultDto {
     public readonly nodeId: number,
     public readonly battery: number,
     public readonly timestamp: Date,
-    public readonly createdAt: Date,
-    public readonly updatedAt: Date
   ) {}
 }

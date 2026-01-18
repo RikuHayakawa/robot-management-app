@@ -21,7 +21,9 @@ export class CreateRobotService {
     return new CreateRobotResultDto(
       created.id,
       created.name,
-      created.isActive
+      created.isActive,
+      created.createdAt!,
+      created.updatedAt!
     );
   }
 }
