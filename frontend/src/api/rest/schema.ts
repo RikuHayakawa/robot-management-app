@@ -66,7 +66,7 @@ export interface paths {
             cookie?: never;
         };
         /** @description Node一覧取得（x, yを除外） */
-        get: operations["GetAll"];
+        get: operations["GetAllNodes"];
         put?: never;
         post?: never;
         delete?: never;
@@ -83,7 +83,7 @@ export interface paths {
             cookie?: never;
         };
         /** @description Node詳細取得（x, yを除外） */
-        get: operations["GetById"];
+        get: operations["GetNodeById"];
         put?: never;
         post?: never;
         delete?: never;
@@ -323,7 +323,7 @@ export interface operations {
             };
         };
     };
-    GetAll: {
+    GetAllNodes: {
         parameters: {
             query?: never;
             header?: never;
@@ -343,7 +343,7 @@ export interface operations {
             };
         };
     };
-    GetById: {
+    GetNodeById: {
         parameters: {
             query?: never;
             header?: never;
