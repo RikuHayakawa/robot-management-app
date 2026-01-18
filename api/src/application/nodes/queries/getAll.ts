@@ -1,5 +1,8 @@
-import { INodeQueryService } from "./interfaces/INodeQueryService";
+import { clampLimit, DEFAULT_LIMIT } from "../../pagination/types";
+import type { PaginationInput } from "../../pagination/types";
+import type { PaginatedResult } from "../../pagination/types";
 import { GetNodeByIdResultDto } from "../dto";
+import { INodeQueryService } from "./interfaces/INodeQueryService";
 
 /**
  * Node一覧取得Service
@@ -8,9 +11,13 @@ export class GetAllNodesService {
   constructor(private nodeQueryService: INodeQueryService) {}
 
   /**
-   * すべてのNodeを取得
+   * カーソルペジネーションでNode一覧を取得
    */
-  public async invoke(): Promise<GetNodeByIdResultDto[]> {
-    return await this.nodeQueryService.findAll();
+  public async invoke(
+    input?: PaginationInput
+  ): Promise<PaginatedResult<GetNodeByIdResultDto>> {
+    const limit = clampLimit(input?.limit ?? DEFAULT_LIMIT);
+    const cursor = input?.cursor;
+    return this.nodeQueryService.findAllPaginated({ limit, cursor });
   }
 }

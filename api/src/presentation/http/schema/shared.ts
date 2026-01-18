@@ -12,7 +12,7 @@ export interface ErrorResponse {
 }
 
 /**
- * ページネーション付きレスポンス
+ * ページネーション付きレスポンス（offset-based）
  * @template T データの型
  */
 export interface PaginatedResponse<T> {
@@ -20,4 +20,14 @@ export interface PaginatedResponse<T> {
   total: number;
   page: number;
   lastPage: number;
+}
+
+/**
+ * カーソルペジネーション付きレスポンス
+ * @template T データの型
+ */
+export interface CursorPaginatedResponse<T> {
+  items: T[];
+  nextCursor: string | null;
+  hasNextPage: boolean;
 }

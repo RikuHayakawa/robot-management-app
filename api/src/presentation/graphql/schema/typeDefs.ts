@@ -4,7 +4,7 @@ type Robot {
   id: ID!
   name: String!
   isActive: Boolean!
-  waypointLogs: [WaypointLog!]!
+  waypointLogs(limit: Int, after: String): WaypointLogConnection!
 }
 
 type WaypointLog {
@@ -24,12 +24,49 @@ type Node {
   y: Float!
 }
 
+# --- Cursor Connection (Relay-style) ---
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+type NodeEdge {
+  node: Node!
+  cursor: String!
+}
+
+type NodeConnection {
+  edges: [NodeEdge!]!
+  pageInfo: PageInfo!
+}
+
+type RobotEdge {
+  node: Robot!
+  cursor: String!
+}
+
+type RobotConnection {
+  edges: [RobotEdge!]!
+  pageInfo: PageInfo!
+}
+
+type WaypointLogEdge {
+  node: WaypointLog!
+  cursor: String!
+}
+
+type WaypointLogConnection {
+  edges: [WaypointLogEdge!]!
+  pageInfo: PageInfo!
+}
+
 # --- Queries (Read) ---
 
 type Query {
-  robots: [Robot!]!
+  robots(limit: Int, after: String): RobotConnection!
   robot(id: ID!): Robot
-  nodes: [Node!]!
+  nodes(limit: Int, after: String): NodeConnection!
   node(id: ID!): Node
 }
 

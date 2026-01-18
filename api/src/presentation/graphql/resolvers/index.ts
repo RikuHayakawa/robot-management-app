@@ -1,4 +1,10 @@
 import { GraphQLError } from "graphql";
+import {
+  encodeNodeCursor,
+  encodeRobotCursor,
+  encodeWaypointLogCursor,
+} from "../../../application/pagination/cursor";
+import { clampLimit } from "../../../application/pagination/types";
 import { CreateRobotInputDto } from "../../../application/robots/dto";
 import { UpdateRobotInputDto } from "../../../application/robots/dto";
 import type { GraphQLContext } from "../context";
@@ -7,9 +13,26 @@ import { RobotType, NodeType, WaypointLogType } from "../types";
 export function createResolvers() {
   return {
     Query: {
-      robots: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
-        const dtos = await ctx.getAllRobotsService.invoke();
-        return dtos.map((dto) => RobotType.from(dto));
+      robots: async (
+        _: unknown,
+        args: { limit?: number; after?: string },
+        ctx: GraphQLContext
+      ) => {
+        const limit = clampLimit(args?.limit ?? 20);
+        const cursor = args?.after;
+        const result = await ctx.getAllRobotsService.invoke({ limit, cursor });
+        const edges = result.items.map((dto) => ({
+          node: RobotType.from(dto),
+          cursor: encodeRobotCursor(dto),
+        }));
+        return {
+          edges,
+          pageInfo: {
+            hasNextPage: result.hasNextPage,
+            endCursor:
+              edges.length > 0 ? edges[edges.length - 1].cursor : null,
+          },
+        };
       },
       robot: async (_: unknown, args: { id: string }, ctx: GraphQLContext) => {
         const id = parseInt(args.id, 10);
@@ -18,9 +41,26 @@ export function createResolvers() {
         if (!dto) return null;
         return RobotType.from(dto);
       },
-      nodes: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
-        const dtos = await ctx.getAllNodesService.invoke();
-        return dtos.map((dto) => NodeType.from(dto));
+      nodes: async (
+        _: unknown,
+        args: { limit?: number; after?: string },
+        ctx: GraphQLContext
+      ) => {
+        const limit = clampLimit(args?.limit ?? 20);
+        const cursor = args?.after;
+        const result = await ctx.getAllNodesService.invoke({ limit, cursor });
+        const edges = result.items.map((dto) => ({
+          node: NodeType.from(dto),
+          cursor: encodeNodeCursor(dto),
+        }));
+        return {
+          edges,
+          pageInfo: {
+            hasNextPage: result.hasNextPage,
+            endCursor:
+              edges.length > 0 ? edges[edges.length - 1].cursor : null,
+          },
+        };
       },
       node: async (_: unknown, args: { id: string }, ctx: GraphQLContext) => {
         const id = parseInt(args.id, 10);
@@ -73,10 +113,30 @@ export function createResolvers() {
       },
     },
     Robot: {
-      waypointLogs: async (parent: { id: string }, _: unknown, ctx: GraphQLContext) => {
+      waypointLogs: async (
+        parent: { id: string },
+        args: { limit?: number; after?: string },
+        ctx: GraphQLContext
+      ) => {
         const robotId = parseInt(parent.id, 10);
-        const dtos = await ctx.getWaypointLogsByRobotIdService.invoke(robotId);
-        return dtos.map((dto) => WaypointLogType.from(dto));
+        const limit = clampLimit(args?.limit ?? 20);
+        const cursor = args?.after;
+        const result = await ctx.getWaypointLogsByRobotIdService.invoke(
+          robotId,
+          { limit, cursor }
+        );
+        const edges = result.items.map((dto) => ({
+          node: WaypointLogType.from(dto),
+          cursor: encodeWaypointLogCursor(dto),
+        }));
+        return {
+          edges,
+          pageInfo: {
+            hasNextPage: result.hasNextPage,
+            endCursor:
+              edges.length > 0 ? edges[edges.length - 1].cursor : null,
+          },
+        };
       },
     },
     WaypointLog: {

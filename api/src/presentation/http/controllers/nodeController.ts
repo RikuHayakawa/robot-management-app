@@ -1,8 +1,10 @@
-import { Route, Get, Path, Controller, OperationId } from "tsoa";
+import { Route, Get, Path, Query, Controller, OperationId } from "tsoa";
+import { clampLimit } from "../../../application/pagination/types";
 import { GetNodeByIdService } from "../../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../../application/nodes/queries/getAll";
-import { NodeResponse } from "../schema/nodes";
 import { toNodeResponse } from "../mappers/nodes";
+import { NodeResponse } from "../schema/nodes";
+import { CursorPaginatedResponse } from "../schema/shared";
 
 /**
  * Node Controller
@@ -16,13 +18,23 @@ export class NodeController {
   ) {}
 
   /**
-   * Node一覧取得（x, yを除外）
+   * Node一覧取得（カーソルペジネーション、x, yを除外）
    */
   @OperationId("GetAllNodes")
   @Get("/")
-  public async getAll(): Promise<NodeResponse[]> {
-    const result = await this.getAllNodesService.invoke();
-    return result.map((dto) => toNodeResponse(dto));
+  public async getAll(
+    @Query() limit?: number,
+    @Query() cursor?: string
+  ): Promise<CursorPaginatedResponse<NodeResponse>> {
+    const result = await this.getAllNodesService.invoke({
+      limit: clampLimit(limit),
+      cursor,
+    });
+    return {
+      items: result.items.map((dto) => toNodeResponse(dto)),
+      nextCursor: result.nextCursor,
+      hasNextPage: result.hasNextPage,
+    };
   }
 
   /**

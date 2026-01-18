@@ -1,3 +1,4 @@
+import type { PaginatedResult } from "../../../pagination/types";
 import { GetNodeByIdResultDto } from "../../dto";
 
 /**
@@ -13,4 +14,12 @@ export interface INodeQueryService {
    * すべてのNodeを取得
    */
   findAll(): Promise<GetNodeByIdResultDto[]>;
+
+  /**
+   * カーソルペジネーションでNode一覧を取得
+   */
+  findAllPaginated(args: {
+    limit: number;
+    cursor?: string;
+  }): Promise<PaginatedResult<GetNodeByIdResultDto>>;
 }

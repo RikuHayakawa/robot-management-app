@@ -1,3 +1,4 @@
+import type { PaginatedResult } from "../../../pagination/types";
 import { GetRobotByIdResultDto } from "../../dto";
 
 /**
@@ -13,4 +14,12 @@ export interface IRobotQueryService {
    * すべてのRobotを取得
    */
   findAll(): Promise<GetRobotByIdResultDto[]>;
+
+  /**
+   * カーソルペジネーションでRobot一覧を取得
+   */
+  findAllPaginated(args: {
+    limit: number;
+    cursor?: string;
+  }): Promise<PaginatedResult<GetRobotByIdResultDto>>;
 }

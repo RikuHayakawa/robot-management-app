@@ -1,21 +1,22 @@
-import { Route, Get, Post, Put, Delete, Path, Body, Controller } from "tsoa";
+import { Route, Get, Post, Put, Delete, Path, Body, Query, Controller } from "tsoa";
 import { CreateRobotService } from "../../../application/robots/commands/create";
 import { UpdateRobotService } from "../../../application/robots/commands/update";
 import { DeleteRobotService } from "../../../application/robots/commands/delete";
+import { clampLimit } from "../../../application/pagination/types";
 import { GetAllRobotsService } from "../../../application/robots/queries/getAll";
 import { GetRobotByIdService } from "../../../application/robots/queries/getById";
-import { GetRobotByIdResultDto } from "../../../application/robots/dto";
 import { GetWaypointLogsByRobotIdService } from "../../../application/waypointLogs/queries/getByRobotId";
-import {
-  RobotResponse,
-  RobotCreateRequest,
-  RobotUpdateRequest,
-} from "../schema/robots";
 import {
   toRobotResponse,
   toRobotCreateRequest,
   toRobotUpdateRequest,
 } from "../mappers/robots";
+import {
+  RobotResponse,
+  RobotCreateRequest,
+  RobotUpdateRequest,
+} from "../schema/robots";
+import { CursorPaginatedResponse } from "../schema/shared";
 import { WaypointLogResponse } from "../schema/waypointLogs";
 import { toWaypointLogResponse } from "../mappers/waypointLogs";
 
@@ -35,12 +36,22 @@ export class RobotController {
   ) {}
 
   /**
-   * Robot一覧取得
+   * Robot一覧取得（カーソルペジネーション）
    */
   @Get("/")
-  public async getAll(): Promise<RobotResponse[]> {
-    const result = await this.getAllRobotsService.invoke();
-    return result.map((dto: GetRobotByIdResultDto) => toRobotResponse(dto));
+  public async getAll(
+    @Query() limit?: number,
+    @Query() cursor?: string
+  ): Promise<CursorPaginatedResponse<RobotResponse>> {
+    const result = await this.getAllRobotsService.invoke({
+      limit: clampLimit(limit),
+      cursor,
+    });
+    return {
+      items: result.items.map((dto) => toRobotResponse(dto)),
+      nextCursor: result.nextCursor,
+      hasNextPage: result.hasNextPage,
+    };
   }
 
   /**
@@ -87,13 +98,22 @@ export class RobotController {
   }
 
   /**
-   * Robotの走行履歴取得（Node情報を含む）
+   * Robotの走行履歴取得（カーソルペジネーション、Node情報を含む）
    */
   @Get("/{id}/waypoint-logs")
   public async getWaypointLogs(
-    @Path() id: number
-  ): Promise<WaypointLogResponse[]> {
-    const result = await this.getWaypointLogsByRobotIdService.invoke(id);
-    return result.map((dto) => toWaypointLogResponse(dto));
+    @Path() id: number,
+    @Query() limit?: number,
+    @Query() cursor?: string
+  ): Promise<CursorPaginatedResponse<WaypointLogResponse>> {
+    const result = await this.getWaypointLogsByRobotIdService.invoke(id, {
+      limit: clampLimit(limit),
+      cursor,
+    });
+    return {
+      items: result.items.map((dto) => toWaypointLogResponse(dto)),
+      nextCursor: result.nextCursor,
+      hasNextPage: result.hasNextPage,
+    };
   }
 }

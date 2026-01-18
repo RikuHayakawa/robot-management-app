@@ -1,8 +1,11 @@
-import prisma from "../clients";
-import { INodeQueryService } from "../../../application/nodes/queries/interfaces/INodeQueryService";
+import {
+  decodeNodeCursor,
+  encodeNodeCursor,
+} from "../../../application/pagination/cursor";
+import type { PaginatedResult } from "../../../application/pagination/types";
 import { GetNodeByIdResultDto } from "../../../application/nodes/dto";
-
-
+import { INodeQueryService } from "../../../application/nodes/queries/interfaces/INodeQueryService";
+import prisma from "../clients";
 
 /**
  * Nodeクエリサービス実装
@@ -49,6 +52,30 @@ export class NodeQueryService implements INodeQueryService {
       (node: { id: number; name: string; x: number; y: number }) =>
         new GetNodeByIdResultDto(node.id, node.name, node.x, node.y)
     );
+  }
+
+  /**
+   * カーソルペジネーションでNode一覧を取得
+   */
+  public async findAllPaginated(args: {
+    limit: number;
+    cursor?: string;
+  }): Promise<PaginatedResult<GetNodeByIdResultDto>> {
+    const after = args.cursor ? decodeNodeCursor(args.cursor) : null;
+    const take = args.limit + 1;
+    const rows = await prisma.node.findMany({
+      where: after ? { id: { gt: after.id } } : undefined,
+      orderBy: { id: "asc" },
+      take,
+      select: { id: true, name: true, x: true, y: true },
+    });
+    const hasNextPage = rows.length > args.limit;
+    const items = rows.slice(0, args.limit).map(
+      (r) => new GetNodeByIdResultDto(r.id, r.name, r.x, r.y)
+    );
+    const nextCursor =
+      items.length > 0 ? encodeNodeCursor(items[items.length - 1]) : null;
+    return { items, nextCursor, hasNextPage };
   }
 }
 
