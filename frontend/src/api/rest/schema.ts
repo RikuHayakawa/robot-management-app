@@ -41,6 +41,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/robots/{id}/waypoint-logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Robotの走行履歴取得（Node情報を含む） */
+        get: operations["GetWaypointLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/nodes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Node一覧取得（x, yを除外） */
+        get: operations["GetAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/nodes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Node詳細取得（x, yを除外） */
+        get: operations["GetById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -70,6 +121,64 @@ export interface components {
             name?: string;
             /** @description Robot is active (optional) */
             isActive?: boolean;
+        };
+        /** @description WaypointLog取得用レスポンス */
+        WaypointLogResponse: {
+            /**
+             * Format: double
+             * @description WaypointLog ID
+             */
+            id: number;
+            /**
+             * Format: double
+             * @description Robot ID
+             */
+            robotId: number;
+            /**
+             * Format: double
+             * @description Node ID
+             */
+            nodeId: number;
+            /**
+             * Format: double
+             * @description Battery level
+             */
+            battery: number;
+            /**
+             * Format: date-time
+             * @description Timestamp
+             */
+            timestamp: string;
+            /**
+             * Format: date-time
+             * @description Created at
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Updated at
+             */
+            updatedAt: string;
+        };
+        /** @description Node取得用レスポンス */
+        NodeResponse: {
+            /**
+             * Format: double
+             * @description Node ID
+             */
+            id: number;
+            /** @description Node name */
+            name: string;
+            /**
+             * Format: double
+             * @description Node X座標
+             */
+            x: number;
+            /**
+             * Format: double
+             * @description Node Y座標
+             */
+            y: number;
         };
     };
     responses: never;
@@ -189,6 +298,70 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    GetWaypointLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WaypointLogResponse"][];
+                };
+            };
+        };
+    };
+    GetAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NodeResponse"][];
+                };
+            };
+        };
+    };
+    GetById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NodeResponse"];
+                };
             };
         };
     };

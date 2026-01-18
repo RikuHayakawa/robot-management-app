@@ -22,10 +22,10 @@ export const formatDate = (date: string | Date | null | undefined): string => {
 };
 
 /**
- * 日時をフォーマットする（YY/MM/DD HH:mm形式）
+ * 日時をフォーマットする（YYYY/MM/DD HH:mm:ss形式）
  */
 export const formatDateTimeWithTime = (date: string | Date | null | undefined): string => {
-  return formatDateTime(date, 'YYYY/MM/DD HH:mm');
+  return formatDateTime(date, 'YYYY/MM/DD HH:mm:ss');
 };
 
 /**

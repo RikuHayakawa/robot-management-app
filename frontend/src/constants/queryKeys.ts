@@ -21,6 +21,7 @@ export const QueryKeys = {
       baseList: () => [key, 'list'] as const,
       list: () => [key, 'list'] as const,
       byId: (id: number) => [key, 'byId', id] as const,
+      byRobotId: (robotId: number) => [key, 'byRobotId', robotId] as const,
     };
   })(),
 };
