@@ -1,7 +1,10 @@
 import express, { Express, Router } from "express";
 import cors from "cors";
+import { graphqlHTTP } from "express-graphql";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./generated/routes";
+import { schema } from "./presentation/graphql/schema";
+import { createGraphQLContext } from "./presentation/graphql/context";
 
 const app: Express = express();
 
@@ -36,6 +39,16 @@ try {
 } catch (error) {
   console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
 }
+
+// GraphQL
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    context: createGraphQLContext(),
+    graphiql: true,
+  })
+);
 
 // tsoa生成のルーター
 const router = Router();
