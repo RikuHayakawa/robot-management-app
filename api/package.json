@@ -8,8 +8,11 @@
     "prebuild": "prisma generate",
     "dev": "ts-node src/server.ts",
     "start": "node dist/server.js",
-    "postinstall": "pnpm rebuild better-sqlite3 && prisma generate",
+    "postinstall": "prisma generate",
     "setup": "pnpm install && pnpm prisma:migrate",
+    "setup:env": "node scripts/setup.js",
+    "setup:init": "pnpm setup:env && pnpm install && pnpm prisma:generate && pnpm prisma:migrate && pnpm tsoa:routes && pnpm tsoa:spec",
+    "setup:dev": "pnpm setup:init && pnpm dev",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
@@ -24,6 +27,11 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.28.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.2.0",
     "@prisma/client": "^7.2.0",
