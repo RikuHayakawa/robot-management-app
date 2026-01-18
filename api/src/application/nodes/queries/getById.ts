@@ -1,20 +1,16 @@
-import { INodeRepository } from "../../../domain/nodes/INodeRepository";
+import { INodeQueryService } from "./interfaces/INodeQueryService";
 import { GetNodeByIdResultDto } from "../dto";
 
 /**
  * Node詳細取得Service
  */
 export class GetNodeByIdService {
-  constructor(private nodeRepository: INodeRepository) {}
+  constructor(private nodeQueryService: INodeQueryService) {}
 
   /**
-   * IDでNodeを取得（x, yを除外）
+   * IDでNodeを取得
    */
   public async invoke(id: number): Promise<GetNodeByIdResultDto | null> {
-    const node = await this.nodeRepository.findById(id);
-    if (!node) {
-      return null;
-    }
-    return new GetNodeByIdResultDto(node.id, node.name);
+    return await this.nodeQueryService.findById(id);
   }
 }

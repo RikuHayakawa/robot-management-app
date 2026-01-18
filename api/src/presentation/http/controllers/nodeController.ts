@@ -1,7 +1,8 @@
 import { Route, Get, Path, Controller } from "tsoa";
 import { GetNodeByIdService } from "../../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../../application/nodes/queries/getAll";
-import { NodeResponse, toNodeResponse } from "../schema/nodes";
+import { NodeResponse } from "../schema/nodes";
+import { toNodeResponse } from "../mappers/nodes";
 
 /**
  * Node Controller

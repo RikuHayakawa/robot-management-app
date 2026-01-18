@@ -1,7 +1,7 @@
-import prisma from "../../clients";
-import { IRobotRepository } from "../../../../domain/robots/IRobotRepository";
-import { Robot } from "../../../../domain/robots/Robot";
-import { RobotGetPayload } from "../../../../generated/prisma/models/Robot";
+import prisma from "../clients";
+import { IRobotRepository } from "../../../domain/robots/IRobotRepository";
+import { Robot } from "../../../domain/robots/Robot";
+import { RobotGetPayload } from "../../../generated/prisma/models/Robot";
 
 /**
  * Prismaのselect結果の型を取得

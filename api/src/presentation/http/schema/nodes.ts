@@ -22,20 +22,3 @@ export interface NodeResponse {
    */
   y: number;
 }
-
-/**
- * Application層のDTOからNodeResponseに変換
- */
-export function toNodeResponse(dto: {
-  id: number;
-  name: string;
-  x: number;
-  y: number;
-}): NodeResponse {
-  return {
-    id: dto.id,
-    name: dto.name,
-    x: dto.x,
-    y: dto.y,
-  };
-}

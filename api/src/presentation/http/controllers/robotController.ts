@@ -10,14 +10,14 @@ import {
   RobotResponse,
   RobotCreateRequest,
   RobotUpdateRequest,
+} from "../schema/robots";
+import {
   toRobotResponse,
   toRobotCreateRequest,
   toRobotUpdateRequest,
-} from "../schema/robots";
-import {
-  WaypointLogResponse,
-  toWaypointLogResponse,
-} from "../schema/waypointLogs";
+} from "../mappers/robots";
+import { WaypointLogResponse } from "../schema/waypointLogs";
+import { toWaypointLogResponse } from "../mappers/waypointLogs";
 
 /**
  * Robot Controller

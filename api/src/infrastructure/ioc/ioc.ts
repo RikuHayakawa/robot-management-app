@@ -7,9 +7,9 @@ import { GetRobotByIdService } from "../../application/robots/queries/getById";
 import { GetWaypointLogsByRobotIdService } from "../../application/waypointLogs/queries/getByRobotId";
 import { GetNodeByIdService } from "../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../application/nodes/queries/getAll";
-import { robotRepository } from "../db/repositories/rdb/robotRepository";
-import { waypointLogRepository } from "../db/repositories/rdb/waypointLogRepository";
-import { nodeRepository } from "../db/repositories/rdb/nodeRepository";
+import { robotRepository } from "../db/repositories/robotRepository";
+import { nodeQueryService } from "../db/queries/nodeQueryService";
+import { waypointLogQueryService } from "../db/queries/waypointLogQueryService";
 import { RobotController } from "../../presentation/http/controllers/robotController";
 import { NodeController } from "../../presentation/http/controllers/nodeController";
 import { ServiceIdentifier } from "tsoa";
@@ -26,11 +26,10 @@ function get<T>(controller: ServiceIdentifier<T>): T {
   const updateRobotService = new UpdateRobotService(robotRepository);
   const deleteRobotService = new DeleteRobotService(robotRepository);
   const getWaypointLogsByRobotIdService = new GetWaypointLogsByRobotIdService(
-    waypointLogRepository,
-    nodeRepository
+    waypointLogQueryService
   );
-  const getAllNodesService = new GetAllNodesService(nodeRepository);
-  const getNodeByIdService = new GetNodeByIdService(nodeRepository);
+  const getAllNodesService = new GetAllNodesService(nodeQueryService);
+  const getNodeByIdService = new GetNodeByIdService(nodeQueryService);
 
   // Controllerインスタンスを生成
   if (controller === RobotController) {
