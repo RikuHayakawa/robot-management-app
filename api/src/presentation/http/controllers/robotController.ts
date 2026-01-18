@@ -5,6 +5,7 @@ import { DeleteRobotService } from "../../../application/robots/commands/delete"
 import { GetAllRobotsService } from "../../../application/robots/queries/getAll";
 import { GetRobotByIdService } from "../../../application/robots/queries/getById";
 import { GetRobotByIdResultDto } from "../../../application/robots/dto";
+import { GetWaypointLogsByRobotIdService } from "../../../application/waypointLogs/queries/getByRobotId";
 import {
   RobotResponse,
   RobotCreateRequest,
@@ -13,6 +14,10 @@ import {
   toRobotCreateRequest,
   toRobotUpdateRequest,
 } from "../schema/robots";
+import {
+  WaypointLogResponse,
+  toWaypointLogResponse,
+} from "../schema/waypointLogs";
 
 /**
  * Robot Controller
@@ -25,7 +30,8 @@ export class RobotController {
     private getRobotByIdService: GetRobotByIdService,
     private createRobotService: CreateRobotService,
     private updateRobotService: UpdateRobotService,
-    private deleteRobotService: DeleteRobotService
+    private deleteRobotService: DeleteRobotService,
+    private getWaypointLogsByRobotIdService: GetWaypointLogsByRobotIdService
   ) {}
 
   /**
@@ -78,5 +84,16 @@ export class RobotController {
   @Delete("/{id}")
   public async delete(@Path() id: number): Promise<void> {
     await this.deleteRobotService.invoke(id);
+  }
+
+  /**
+   * Robotの走行履歴取得（Node情報を含む）
+   */
+  @Get("/{id}/waypoint-logs")
+  public async getWaypointLogs(
+    @Path() id: number
+  ): Promise<WaypointLogResponse[]> {
+    const result = await this.getWaypointLogsByRobotIdService.invoke(id);
+    return result.map((dto) => toWaypointLogResponse(dto));
   }
 }

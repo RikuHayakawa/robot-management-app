@@ -4,8 +4,14 @@ import { UpdateRobotService } from "../../application/robots/commands/update";
 import { DeleteRobotService } from "../../application/robots/commands/delete";
 import { GetAllRobotsService } from "../../application/robots/queries/getAll";
 import { GetRobotByIdService } from "../../application/robots/queries/getById";
+import { GetWaypointLogsByRobotIdService } from "../../application/waypointLogs/queries/getByRobotId";
+import { GetNodeByIdService } from "../../application/nodes/queries/getById";
+import { GetAllNodesService } from "../../application/nodes/queries/getAll";
 import { robotRepository } from "../db/repositories/rdb/robotRepository";
+import { waypointLogRepository } from "../db/repositories/rdb/waypointLogRepository";
+import { nodeRepository } from "../db/repositories/rdb/nodeRepository";
 import { RobotController } from "../../presentation/http/controllers/robotController";
+import { NodeController } from "../../presentation/http/controllers/nodeController";
 import { ServiceIdentifier } from "tsoa";
 
 /**
@@ -19,6 +25,12 @@ function get<T>(controller: ServiceIdentifier<T>): T {
   const createRobotService = new CreateRobotService(robotRepository);
   const updateRobotService = new UpdateRobotService(robotRepository);
   const deleteRobotService = new DeleteRobotService(robotRepository);
+  const getWaypointLogsByRobotIdService = new GetWaypointLogsByRobotIdService(
+    waypointLogRepository,
+    nodeRepository
+  );
+  const getAllNodesService = new GetAllNodesService(nodeRepository);
+  const getNodeByIdService = new GetNodeByIdService(nodeRepository);
 
   // Controllerインスタンスを生成
   if (controller === RobotController) {
@@ -27,8 +39,13 @@ function get<T>(controller: ServiceIdentifier<T>): T {
       getRobotByIdService,
       createRobotService,
       updateRobotService,
-      deleteRobotService
+      deleteRobotService,
+      getWaypointLogsByRobotIdService
     ) as T;
+  }
+
+  if (controller === NodeController) {
+    return new NodeController(getAllNodesService, getNodeByIdService) as T;
   }
 
   throw new Error(`Unknown controller: ${(controller as any).name || "unknown"}`);
