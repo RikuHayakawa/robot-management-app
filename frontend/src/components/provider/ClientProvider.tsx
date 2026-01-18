@@ -4,6 +4,7 @@ import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ApiSettingsProvider } from '@/contexts/ApiSettingsContext';
 
 export default function ClientProvider({ children }: PropsWithChildren) {
   const [queryClient] = useState(
@@ -20,7 +21,7 @@ export default function ClientProvider({ children }: PropsWithChildren) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <ApiSettingsProvider>{children}</ApiSettingsProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

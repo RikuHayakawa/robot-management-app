@@ -1,18 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/api';
-import { QueryKeys } from '@/constants/queryKeys';
+import { useApiSettings } from '@/contexts/ApiSettingsContext';
 
 export const useDeleteRobot = () => {
   const queryClient = useQueryClient();
+  const { mode } = useApiSettings();
 
   return useMutation({
     mutationFn: async (id: number) => {
-      return await api.rest.robotsApi.deleteRobot({ id });
+      if (mode === 'rest') {
+        await api.rest.robotsApi.deleteRobot({ id });
+        return;
+      }
+      await api.graphql.robotsApi.deleteRobot(id);
     },
     onSuccess: (_, id) => {
-      // ロボット一覧と個別のロボットのクエリキャッシュを無効化
-      queryClient.invalidateQueries({ queryKey: QueryKeys.robot.list() });
-      queryClient.invalidateQueries({ queryKey: QueryKeys.robot.byId(id) });
+      queryClient.invalidateQueries({ queryKey: ['robot', 'list'] });
+      queryClient.invalidateQueries({ queryKey: ['robot', 'byId', id] });
     },
   });
 };
