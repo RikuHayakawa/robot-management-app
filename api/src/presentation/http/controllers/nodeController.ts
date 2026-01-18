@@ -1,4 +1,4 @@
-import { Route, Get, Path, Controller } from "tsoa";
+import { Route, Get, Path, Controller, OperationId } from "tsoa";
 import { GetNodeByIdService } from "../../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../../application/nodes/queries/getAll";
 import { NodeResponse } from "../schema/nodes";
@@ -18,6 +18,7 @@ export class NodeController {
   /**
    * Node一覧取得（x, yを除外）
    */
+  @OperationId("GetAllNodes")
   @Get("/")
   public async getAll(): Promise<NodeResponse[]> {
     const result = await this.getAllNodesService.invoke();
@@ -27,6 +28,7 @@ export class NodeController {
   /**
    * Node詳細取得（x, yを除外）
    */
+  @OperationId("GetNodeById")
   @Get("/{id}")
   public async getById(@Path() id: number): Promise<NodeResponse> {
     const result = await this.getNodeByIdService.invoke(id);
