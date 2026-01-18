@@ -107,6 +107,10 @@ export interface components {
             name: string;
             /** @description Robot is active */
             isActive: boolean;
+            /** @description Robot created at */
+            createdAt: string;
+            /** @description Robot updated at */
+            updatedAt: string;
         };
         /** @description Robot作成用リクエスト */
         RobotCreateRequest: {
@@ -149,16 +153,6 @@ export interface components {
              * @description Timestamp
              */
             timestamp: string;
-            /**
-             * Format: date-time
-             * @description Created at
-             */
-            createdAt: string;
-            /**
-             * Format: date-time
-             * @description Updated at
-             */
-            updatedAt: string;
         };
         /** @description Node取得用レスポンス */
         NodeResponse: {

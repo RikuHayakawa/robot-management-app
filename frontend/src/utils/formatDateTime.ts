@@ -41,3 +41,10 @@ export const formatDateJapanese = (date: string | Date | null | undefined): stri
 export const formatDateTimeShort = (date: string | Date | null | undefined): string => {
   return formatDateTime(date, 'MM/DD HH:mm');
 };
+
+/**
+ * 一覧用の日時（YYYY/MM/DD HH:mm形式、年付き）
+ */
+export const formatDateTimeForList = (date: string | Date | null | undefined): string => {
+  return formatDateTime(date, 'YYYY/MM/DD HH:mm');
+};

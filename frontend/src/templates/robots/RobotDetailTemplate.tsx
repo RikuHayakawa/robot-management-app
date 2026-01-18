@@ -58,7 +58,7 @@ export const RobotDetailTemplate = ({ robotId }: RobotDetailTemplateProps) => {
 
       {/* メインコンテンツ - 2カラムレイアウト */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
-        {/* 左側: ロボット詳細情報と走行履歴 */}
+        {/* ロボット詳細情報と走行履歴 */}
         <div className="flex flex-col gap-6 overflow-hidden">
           {/* ロボット詳細情報 */}
           <div className="bg-bg-light-dark rounded-lg p-6">
@@ -74,7 +74,7 @@ export const RobotDetailTemplate = ({ robotId }: RobotDetailTemplateProps) => {
           </div>
         </div>
 
-        {/* 右側: ノードマップ */}
+        {/* ノードマップ */}
         <div className="flex-1 overflow-hidden">
           <NodeMap nodes={nodes} waypointLogs={waypointLogs} currentNodeId={currentNodeId} />
         </div>

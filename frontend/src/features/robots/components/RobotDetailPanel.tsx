@@ -18,7 +18,6 @@ export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPane
   const latestLog = waypointLogs[0];
   const currentNode = latestLog ? nodes.find((n) => n.id === latestLog.nodeId) : null;
   const currentBattery = latestLog?.battery ?? 0;
-  const lastUpdate = latestLog?.timestamp ?? robot.updatedAt;
 
   return (
     <div className="space-y-6">
@@ -40,9 +39,15 @@ export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPane
           <div className="text-base text-foreground">{currentNode?.name ?? '-'}</div>
         </div>
         <div>
+          <div className="text-sm text-muted mb-1">作成日</div>
+          <div className="text-base text-foreground">
+            {robot.createdAt ? formatDateTimeWithTime(robot.createdAt) : '-'}
+          </div>
+        </div>
+        <div>
           <div className="text-sm text-muted mb-1">最終更新</div>
           <div className="text-base text-foreground">
-            {lastUpdate ? formatDateTimeWithTime(lastUpdate) : '-'}
+            {robot.updatedAt ? formatDateTimeWithTime(robot.updatedAt) : '-'}
           </div>
         </div>
       </div>

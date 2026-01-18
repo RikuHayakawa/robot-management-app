@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/api';
 import { QueryKeys } from '@/constants/queryKeys';
-import type { components } from '@/api/rest/types';
+import type { ApiSchemaComponents } from '@/api/rest/types';
 
-export type RobotResponse = components['schemas']['RobotResponse'];
+export type RobotResponse = ApiSchemaComponents['schemas']['RobotResponse'];
 
 export const useRobot = (id: number) => {
   return useQuery<RobotResponse>({

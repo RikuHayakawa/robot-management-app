@@ -1,11 +1,9 @@
-import type { components } from '@/api/rest/types';
+import type { ApiSchemaComponents } from '@/api/rest/types';
 
-export type RobotResponse = components['schemas']['RobotResponse'];
+export type Robot = ApiSchemaComponents['schemas']['RobotResponse'];
 
-export type RobotWithDates = RobotResponse & {
-  createdAt?: string;
-  updatedAt?: string;
-};
+/** 一覧・モーダル用（createdAt / updatedAt を含む Robot の別名） */
+export type RobotWithDates = Robot;
 
 export type RobotFormData = {
   name: string;

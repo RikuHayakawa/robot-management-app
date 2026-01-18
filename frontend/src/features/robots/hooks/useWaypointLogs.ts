@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/api';
 import { QueryKeys } from '@/constants/queryKeys';
-import type { components } from '@/api/rest/types';
+import type {  ApiSchemaComponents } from '@/api/rest/types';
 
-export type WaypointLogResponse = components['schemas']['WaypointLogResponse'];
+export type WaypointLogResponse = ApiSchemaComponents['schemas']['WaypointLogResponse'];
 
 export const useWaypointLogs = (robotId: number) => {
   return useQuery<WaypointLogResponse[]>({

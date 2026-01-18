@@ -6,7 +6,7 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { EyeIcon } from '@/components/svg/EyeIcon';
 import { PencilIcon } from '@/components/svg/PencilIcon';
 import { TrashIcon } from '@/components/svg/TrashIcon';
-import { formatDateTimeShort } from '@/utils/formatDateTime';
+import { formatDateTimeForList } from '@/utils/formatDateTime';
 import { useRobots } from '../hooks/useRobots';
 import type { RobotWithDates } from '../types';
 import { useRouter } from 'next/navigation';
@@ -65,17 +65,17 @@ export const RobotTable = () => {
       render: (robot) => <StatusBadge status={robot.isActive ? 'active' : 'inactive'} />,
     },
     {
-      key: 'updatedAt',
-      label: '最終更新',
-      render: (robot) => (
-        <span className="text-muted">{formatDateTimeShort(robot.updatedAt) || '-'}</span>
-      ),
-    },
-    {
       key: 'createdAt',
       label: '作成日',
       render: (robot) => (
-        <span className="text-muted">{formatDateTimeShort(robot.createdAt) || '-'}</span>
+        <span className="text-muted">{formatDateTimeForList(robot.createdAt) || '-'}</span>
+      ),
+    },
+    {
+      key: 'updatedAt',
+      label: '最終更新',
+      render: (robot) => (
+        <span className="text-muted">{formatDateTimeForList(robot.updatedAt) || '-'}</span>
       ),
     },
     {
