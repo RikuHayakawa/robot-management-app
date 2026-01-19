@@ -14,7 +14,7 @@ interface RobotDetailPanelProps {
 }
 
 export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPanelProps) => {
-  // 最新のwaypointLogから現在位置とバッテリーを取得
+  // 最新のwaypointLogから最終地点とバッテリーを取得
   const latestLog = waypointLogs[0];
   const currentNode = latestLog ? nodes.find((n) => n.id === latestLog.nodeId) : null;
   const currentBattery = latestLog?.battery ?? 0;
@@ -35,7 +35,7 @@ export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPane
           <StatusBadge status={robot.isActive ? 'active' : 'inactive'} />
         </div>
         <div>
-          <div className="text-sm text-muted mb-1">現在位置</div>
+          <div className="text-sm text-muted mb-1">最終地点</div>
           <div className="text-base text-foreground">{currentNode?.name ?? '-'}</div>
         </div>
         <div>

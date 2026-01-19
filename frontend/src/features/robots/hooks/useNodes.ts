@@ -13,10 +13,10 @@ export const useNodes = () => {
     queryKey: QueryKeys.node.list(mode),
     queryFn: async () => {
       if (mode === 'rest') {
-        const data = await api.rest.nodesApi.getNodes();
+        const data = await api.rest.nodesApi.getNodes({ limit: 100, cursor: '' });
         return data.items;
       }
-      const data = await api.graphql.nodesApi.getNodes();
+      const data = await api.graphql.nodesApi.getNodes({ limit: 100, after: '' });
       return data.nodes.edges.map((e) => e.node).map((n) => ({
         id: Number(n.id),
         name: n.name,
