@@ -5,6 +5,8 @@ query Robots($limit: Int, $after: String) {
         id
         name
         isActive
+        createdAt
+        updatedAt
       }
       cursor
     }
@@ -20,6 +22,8 @@ query Robot($id: ID!) {
     id
     name
     isActive
+    createdAt
+    updatedAt
   }
 }
 
@@ -28,6 +32,8 @@ mutation CreateRobot($input: CreateRobotInput!) {
     id
     name
     isActive
+    createdAt
+    updatedAt
   }
 }
 
@@ -36,6 +42,8 @@ mutation UpdateRobot($id: ID!, $input: UpdateRobotInput!) {
     id
     name
     isActive
+    createdAt
+    updatedAt
   }
 }
 

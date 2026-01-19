@@ -22,8 +22,8 @@ export const useRobot = (id: number) => {
         id: Number(r.id),
         name: r.name,
         isActive: r.isActive,
-        createdAt: '',
-        updatedAt: '',
+        createdAt: r.createdAt,
+        updatedAt: r.updatedAt,
       };
     },
     enabled: !!id,

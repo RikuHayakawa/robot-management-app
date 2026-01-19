@@ -5,13 +5,19 @@ import { useApiSettings } from '@/contexts/ApiSettingsContext';
 import type { RobotFormData } from '../types';
 import type { RobotResponse } from './useRobot';
 
-function normalizeRobot(r: { id: string; name: string; isActive: boolean }): RobotResponse {
+function normalizeRobot(r: {
+  id: string;
+  name: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}): RobotResponse {
   return {
     id: Number(r.id),
     name: r.name,
     isActive: r.isActive,
-    createdAt: '',
-    updatedAt: '',
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
   };
 }
 

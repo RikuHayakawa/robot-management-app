@@ -19,8 +19,8 @@ export const useRobots = () => {
         id: Number(n.id),
         name: n.name,
         isActive: n.isActive,
-        createdAt: '',
-        updatedAt: '',
+        createdAt: n.createdAt,
+        updatedAt: n.updatedAt,
       }));
     },
   });
