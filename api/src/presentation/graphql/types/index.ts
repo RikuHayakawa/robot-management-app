@@ -3,14 +3,16 @@ import type { GetNodeByIdResultDto } from "../../../application/nodes/dto";
 import type { GetWaypointLogsByRobotIdResultDto } from "../../../application/waypointLogs/dto";
 
 /**
- * Result DTO → GraphQL Robot 形（id, name, isActive のみ。waypointLogs は field resolver）
+ * Result DTO → GraphQL Robot 形（id, name, isActive, createdAt, updatedAt。waypointLogs は field resolver）
  */
 export const RobotType = {
-  from(dto: RobotResultDto): { id: string; name: string; isActive: boolean } {
+  from(dto: RobotResultDto): { id: string; name: string; isActive: boolean; createdAt: string; updatedAt: string } {
     return {
       id: String(dto.id),
       name: dto.name,
       isActive: dto.isActive,
+      createdAt: dto.createdAt.toISOString(),
+      updatedAt: dto.updatedAt.toISOString(),
     };
   },
 };

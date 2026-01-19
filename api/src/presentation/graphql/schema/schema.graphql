@@ -4,6 +4,8 @@ type Robot {
   id: ID!
   name: String!
   isActive: Boolean!
+  createdAt: String!
+  updatedAt: String!
   waypointLogs(limit: Int, after: String): WaypointLogConnection!
 }
 
