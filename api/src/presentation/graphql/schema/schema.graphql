@@ -1,11 +1,15 @@
+# --- Scalar ---
+
+scalar DateTime
+
 # --- Types ---
 
 type Robot {
   id: ID!
   name: String!
   isActive: Boolean!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   waypointLogs(limit: Int, after: String): WaypointLogConnection!
 }
 
@@ -14,16 +18,20 @@ type WaypointLog {
   robotId: ID!
   nodeId: ID!
   battery: Int!
-  timestamp: String!
+  timestamp: DateTime!
   node: Node!
   robot: Robot!
+}
+
+type Position {
+  x: Float!
+  y: Float!
 }
 
 type Node {
   id: ID!
   name: String!
-  x: Float!
-  y: Float!
+  position: Position!
 }
 
 # --- Cursor Connection (Relay-style) ---

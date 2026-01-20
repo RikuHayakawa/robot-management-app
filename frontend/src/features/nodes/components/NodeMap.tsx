@@ -49,8 +49,8 @@ export const NodeMap = ({ nodes, waypointLogs, currentNodeId }: NodeMapProps) =>
       };
     }
 
-    const xs = nodes.map((n) => n.x);
-    const ys = nodes.map((n) => n.y);
+    const xs = nodes.map((n) => n.position.x);
+    const ys = nodes.map((n) => n.position.y);
     const minX = Math.min(...xs);
     const minY = Math.min(...ys);
     const maxX = Math.max(...xs);
@@ -107,8 +107,8 @@ export const NodeMap = ({ nodes, waypointLogs, currentNodeId }: NodeMapProps) =>
   // 移動経路を計算（waypointLogsの順序に基づく。log.node を使用、nodes/list による照合は行わない）
   const pathPoints = useMemo(() => {
     return waypointLogs.map((log) => ({
-      x: log.node.x * scale + offsetX,
-      y: log.node.y * scale + offsetY,
+      x: log.node.position.x * scale + offsetX,
+      y: log.node.position.y * scale + offsetY,
     }));
   }, [waypointLogs, scale, offsetX, offsetY]);
 
@@ -172,8 +172,8 @@ export const NodeMap = ({ nodes, waypointLogs, currentNodeId }: NodeMapProps) =>
 
           {/* ノード */}
           {nodes.map((node) => {
-            const x = node.x * scale + offsetX;
-            const y = node.y * scale + offsetY;
+            const x = node.position.x * scale + offsetX;
+            const y = node.position.y * scale + offsetY;
             const isCurrent = currentNodeId === node.id;
             const radius = isCurrent ? 8 : 6;
             const fill = isCurrent ? '#3b82f6' : '#ffffff';

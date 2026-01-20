@@ -12,8 +12,7 @@ export interface Robot {
 export interface Node {
   id: number;
   name: string;
-  x: number;
-  y: number;
+  position: { x: number; y: number };
 }
 
 export interface WaypointLog {

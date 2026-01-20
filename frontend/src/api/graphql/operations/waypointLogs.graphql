@@ -11,8 +11,10 @@ query WaypointLogsByRobotId($id: ID!, $limit: Int, $after: String) {
           node {
             id
             name
-            x
-            y
+            position {
+              x
+              y
+            }
           }
         }
         cursor

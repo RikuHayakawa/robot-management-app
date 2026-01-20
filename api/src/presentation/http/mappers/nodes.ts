@@ -8,7 +8,6 @@ export function toNodeResponse(dto: GetNodeByIdResultDto): NodeResponse {
   return {
     id: dto.id,
     name: dto.name,
-    x: dto.x,
-    y: dto.y,
+    position: { x: dto.x, y: dto.y },
   };
 }

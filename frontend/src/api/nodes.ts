@@ -26,8 +26,7 @@ export const nodesApi = {
     return (data?.nodes?.edges ?? []).map(({ node }) => ({
       id: Number(node.id),
       name: node.name,
-      x: node.x,
-      y: node.y,
+      position: { x: node.position.x, y: node.position.y },
     }));
   },
 };

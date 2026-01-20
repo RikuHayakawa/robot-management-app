@@ -4,8 +4,10 @@ query Nodes($limit: Int, $after: String) {
       node {
         id
         name
-        x
-        y
+        position {
+          x
+          y
+        }
       }
       cursor
     }
@@ -20,7 +22,9 @@ query Node($id: ID!) {
   node(id: $id) {
     id
     name
-    x
-    y
+    position {
+      x
+      y
+    }
   }
 }

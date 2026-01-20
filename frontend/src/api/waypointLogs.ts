@@ -41,8 +41,7 @@ export const waypointLogsApi = {
       const node: Node = {
         id: Number(n.node.id),
         name: n.node.name,
-        x: n.node.x,
-        y: n.node.y,
+        position: { x: n.node.position.x, y: n.node.position.y },
       };
       return {
         id: Number(n.id),

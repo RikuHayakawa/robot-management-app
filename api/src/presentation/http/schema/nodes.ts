@@ -1,4 +1,12 @@
 /**
+ * 座標（Node の地理情報）
+ */
+export interface Position {
+  x: number;
+  y: number;
+}
+
+/**
  * Node取得用レスポンス
  */
 export interface NodeResponse {
@@ -13,12 +21,7 @@ export interface NodeResponse {
   name: string;
 
   /**
-   * Node X座標
+   * 座標（x, y）
    */
-  x: number;
-
-  /**
-   * Node Y座標
-   */
-  y: number;
+  position: Position;
 }

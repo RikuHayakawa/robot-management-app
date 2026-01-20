@@ -166,6 +166,13 @@ export interface components {
             nextCursor: string | null;
             hasNextPage: boolean;
         };
+        /** @description 座標（Node の地理情報） */
+        Position: {
+            /** Format: double */
+            x: number;
+            /** Format: double */
+            y: number;
+        };
         /** @description Node取得用レスポンス */
         NodeResponse: {
             /**
@@ -175,16 +182,8 @@ export interface components {
             id: number;
             /** @description Node name */
             name: string;
-            /**
-             * Format: double
-             * @description Node X座標
-             */
-            x: number;
-            /**
-             * Format: double
-             * @description Node Y座標
-             */
-            y: number;
+            /** @description 座標（x, y） */
+            position: components["schemas"]["Position"];
         };
         /** @description カーソルペジネーション付きレスポンス */
         CursorPaginatedResponse_NodeResponse_: {
