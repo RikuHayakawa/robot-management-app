@@ -3,12 +3,11 @@
 import { Table, type TableColumn } from '@/components/table/Table';
 import { BatteryIcon } from '@/components/svg/BatteryIcon';
 import { formatDateTimeWithTime } from '@/utils/formatDateTime';
-import type { WaypointLogResponse } from '../hooks/useWaypointLogs';
-import type { NodeResponse } from '../hooks/useNodes';
+import type { Node, WaypointLog } from '@/api';
 
 interface WaypointLogTableProps {
-  waypointLogs: WaypointLogResponse[];
-  nodes: NodeResponse[];
+  waypointLogs: WaypointLog[];
+  nodes: Node[];
 }
 
 export const WaypointLogTable = ({ waypointLogs, nodes }: WaypointLogTableProps) => {
@@ -17,7 +16,7 @@ export const WaypointLogTable = ({ waypointLogs, nodes }: WaypointLogTableProps)
     return node?.name ?? `Node ${nodeId}`;
   };
 
-  const columns: TableColumn<WaypointLogResponse>[] = [
+  const columns: TableColumn<WaypointLog>[] = [
     {
       key: 'node',
       label: 'ノード',

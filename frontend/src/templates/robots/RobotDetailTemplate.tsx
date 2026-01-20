@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { RobotDetailPanel } from '@/features/robots/components/RobotDetailPanel';
-import { WaypointLogTable } from '@/features/robots/components/WaypointLogTable';
-import { NodeMap } from '@/features/robots/components/NodeMap';
+import { WaypointLogTable } from '@/features/waypoint-logs/components/WaypointLogTable';
+import { NodeMap } from '@/features/nodes/components/NodeMap';
 import { useRobot } from '@/features/robots/hooks/useRobot';
-import { useWaypointLogs } from '@/features/robots/hooks/useWaypointLogs';
-import { useNodes } from '@/features/robots/hooks/useNodes';
+import { useWaypointLogs } from '@/features/waypoint-logs/hooks/useWaypointLogs';
+import { useNodes } from '@/features/nodes/hooks/useNodes';
 import { Loading } from '@/components/common/Loading';
 import { appPaths } from '@/constants/appPaths';
 

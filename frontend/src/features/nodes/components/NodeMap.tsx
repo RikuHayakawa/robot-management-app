@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useRef } from 'react';
 import { useNodeMapView } from '../hooks/useNodeMapView';
-import type { NodeResponse } from '../hooks/useNodes';
-import type { WaypointLogResponse } from '../hooks/useWaypointLogs';
+import type { Node, WaypointLog } from '@/api';
 
 const GRID_CANDIDATES = [1, 2, 5, 10, 20, 50, 100, 200, 500];
 
@@ -14,8 +13,8 @@ function getGridStep(minX: number, minY: number, maxX: number, maxY: number): nu
 }
 
 interface NodeMapProps {
-  nodes: NodeResponse[];
-  waypointLogs: WaypointLogResponse[];
+  nodes: Node[];
+  waypointLogs: WaypointLog[];
   currentNodeId?: number;
 }
 

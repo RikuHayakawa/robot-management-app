@@ -8,8 +8,9 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
+import type { ApiMode } from '@/api';
 
-export type ApiMode = 'rest' | 'graphql';
+export type { ApiMode } from '@/api';
 
 const STORAGE_KEY = 'api-mode';
 

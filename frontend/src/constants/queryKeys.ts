@@ -1,4 +1,4 @@
-import type { ApiMode } from '@/contexts/ApiSettingsContext';
+import type { ApiMode } from '@/api';
 
 export const QueryKeys = {
   robot: (() => {

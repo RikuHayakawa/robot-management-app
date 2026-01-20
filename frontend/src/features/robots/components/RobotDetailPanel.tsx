@@ -3,14 +3,13 @@
 import { StatusBadge } from '@/components/StatusBadge';
 import { BatteryIcon } from '@/components/svg/BatteryIcon';
 import { formatDateTimeWithTime } from '@/utils/formatDateTime';
-import type { RobotResponse } from '../hooks/useRobot';
-import type { NodeResponse } from '../hooks/useNodes';
-import type { WaypointLogResponse } from '../hooks/useWaypointLogs';
+import type { Node, WaypointLog } from '@/api';
+import type { Robot } from '../types';
 
 interface RobotDetailPanelProps {
-  robot: RobotResponse;
-  nodes: NodeResponse[];
-  waypointLogs: WaypointLogResponse[];
+  robot: Robot;
+  nodes: Node[];
+  waypointLogs: WaypointLog[];
 }
 
 export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPanelProps) => {
