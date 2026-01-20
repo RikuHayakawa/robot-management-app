@@ -24,6 +24,10 @@ export interface WaypointLog {
   timestamp: string;
 }
 
+export interface WaypointLogWithNode extends WaypointLog {
+  node: Node;
+}
+
 // Adapter の create/update 用（Feature の RobotFormData と同形）
 export interface RobotCreateInput {
   name: string;

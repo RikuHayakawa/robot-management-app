@@ -3,24 +3,18 @@
 import { Table, type TableColumn } from '@/components/table/Table';
 import { BatteryIcon } from '@/components/svg/BatteryIcon';
 import { formatDateTimeWithTime } from '@/utils/formatDateTime';
-import type { Node, WaypointLog } from '@/api';
+import type { WaypointLogWithNode } from '@/api';
 
 interface WaypointLogTableProps {
-  waypointLogs: WaypointLog[];
-  nodes: Node[];
+  waypointLogs: WaypointLogWithNode[];
 }
 
-export const WaypointLogTable = ({ waypointLogs, nodes }: WaypointLogTableProps) => {
-  const getNodeName = (nodeId: number): string => {
-    const node = nodes.find((n) => n.id === nodeId);
-    return node?.name ?? `Node ${nodeId}`;
-  };
-
-  const columns: TableColumn<WaypointLog>[] = [
+export const WaypointLogTable = ({ waypointLogs }: WaypointLogTableProps) => {
+  const columns: TableColumn<WaypointLogWithNode>[] = [
     {
       key: 'node',
       label: 'ノード',
-      render: (log) => <span className="text-foreground">{getNodeName(log.nodeId)}</span>,
+      render: (log) => <span className="text-foreground">{log.node.name}</span>,
     },
     {
       key: 'battery',

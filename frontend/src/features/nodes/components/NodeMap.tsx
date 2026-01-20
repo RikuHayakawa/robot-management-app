@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from 'react';
 import { useNodeMapView } from '../hooks/useNodeMapView';
-import type { Node, WaypointLog } from '@/api';
+import type { Node, WaypointLogWithNode } from '@/api';
 
 const GRID_CANDIDATES = [1, 2, 5, 10, 20, 50, 100, 200, 500];
 
@@ -14,7 +14,7 @@ function getGridStep(minX: number, minY: number, maxX: number, maxY: number): nu
 
 interface NodeMapProps {
   nodes: Node[];
-  waypointLogs: WaypointLog[];
+  waypointLogs: WaypointLogWithNode[];
   currentNodeId?: number;
 }
 
@@ -104,19 +104,13 @@ export const NodeMap = ({ nodes, waypointLogs, currentNodeId }: NodeMapProps) =>
     return lines;
   }, [minX, minY, maxX, maxY, gridStep, scale, offsetX, offsetY]);
 
-  // 移動経路を計算（waypointLogsの順序に基づく）
+  // 移動経路を計算（waypointLogsの順序に基づく。log.node を使用、nodes/list による照合は行わない）
   const pathPoints = useMemo(() => {
-    return waypointLogs
-      .map((log) => {
-        const node = nodes.find((n) => n.id === log.nodeId);
-        if (!node) return null;
-        return {
-          x: node.x * scale + offsetX,
-          y: node.y * scale + offsetY,
-        };
-      })
-      .filter((point): point is { x: number; y: number } => point !== null);
-  }, [waypointLogs, nodes, scale, offsetX, offsetY]);
+    return waypointLogs.map((log) => ({
+      x: log.node.x * scale + offsetX,
+      y: log.node.y * scale + offsetY,
+    }));
+  }, [waypointLogs, scale, offsetX, offsetY]);
 
   const pathString = useMemo(() => {
     if (pathPoints.length === 0) return '';

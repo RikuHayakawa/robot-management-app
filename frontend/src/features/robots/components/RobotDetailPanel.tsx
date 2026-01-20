@@ -3,19 +3,18 @@
 import { StatusBadge } from '@/components/StatusBadge';
 import { BatteryIcon } from '@/components/svg/BatteryIcon';
 import { formatDateTimeWithTime } from '@/utils/formatDateTime';
-import type { Node, WaypointLog } from '@/api';
+import type { WaypointLogWithNode } from '@/api';
 import type { Robot } from '../types';
 
 interface RobotDetailPanelProps {
   robot: Robot;
-  nodes: Node[];
-  waypointLogs: WaypointLog[];
+  waypointLogs: WaypointLogWithNode[];
 }
 
-export const RobotDetailPanel = ({ robot, nodes, waypointLogs }: RobotDetailPanelProps) => {
+export const RobotDetailPanel = ({ robot, waypointLogs }: RobotDetailPanelProps) => {
   // 最新のwaypointLogから最終地点とバッテリーを取得
   const latestLog = waypointLogs[0];
-  const currentNode = latestLog ? nodes.find((n) => n.id === latestLog.nodeId) : null;
+  const currentNode = latestLog?.node ?? null;
   const currentBattery = latestLog?.battery ?? 0;
 
   return (

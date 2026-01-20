@@ -62,14 +62,14 @@ export const RobotDetailTemplate = ({ robotId }: RobotDetailTemplateProps) => {
         <div className="flex flex-col gap-6 overflow-hidden">
           {/* ロボット詳細情報 */}
           <div className="bg-bg-light-dark rounded-lg p-6">
-            <RobotDetailPanel robot={robot} nodes={nodes} waypointLogs={waypointLogs} />
+            <RobotDetailPanel robot={robot} waypointLogs={waypointLogs} />
           </div>
 
           {/* 走行履歴 */}
           <div className="flex-1 flex flex-col bg-bg-light-dark rounded-lg p-6 overflow-hidden">
             <h3 className="text-lg font-semibold text-foreground mb-4">走行履歴</h3>
             <div className="flex-1 overflow-auto">
-              <WaypointLogTable waypointLogs={waypointLogs} nodes={nodes} />
+              <WaypointLogTable waypointLogs={waypointLogs} />
             </div>
           </div>
         </div>
