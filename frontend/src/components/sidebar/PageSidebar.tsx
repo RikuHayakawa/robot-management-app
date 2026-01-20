@@ -37,7 +37,7 @@ export const PageSidebar = () => {
   return (
     <aside className="flex h-screen w-[243px] flex-col border-r border-subtle bg-light-dark p-4 shadow-default">
       {/* メインメニュー */}
-      <nav className="flex flex-col gap-2.5">
+      <nav className="flex flex-1 min-h-0 flex-col gap-2.5">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isLink = 'href' in item && typeof item.href === 'string';
@@ -72,10 +72,13 @@ export const PageSidebar = () => {
           );
         })}
 
+        {/* スペーサー: 区切り線より下をサイドバー下部に配置 */}
+        <div className="flex-1" />
+
         {/* 区切り線 */}
         <div className="my-2 h-px w-full bg-divider" />
 
-        {/* 下部メニュー */}
+        {/* 下部メニュー（サイドバー下部に固定） */}
         {bottomMenuItems.map((item) => {
           const Icon = item.icon;
           const isLink = 'href' in item && typeof item.href === 'string';
