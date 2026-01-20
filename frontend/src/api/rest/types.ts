@@ -4,6 +4,9 @@ export type ApiSchemaPaths = paths;
 export type ApiSchemaComponents = components;
 export type ApiSchemaOperations = operations;
 
+export type NodeResponse = ApiSchemaComponents['schemas']['NodeResponse'];
+export type WaypointLogResponse = ApiSchemaComponents['schemas']['WaypointLogResponse'];
+
 export type ApiResponse<T extends keyof operations> = operations[T] extends {
   responses: infer R;
 }
