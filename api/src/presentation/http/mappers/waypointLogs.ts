@@ -12,6 +12,6 @@ export function toWaypointLogResponse(
     robotId: dto.robotId,
     nodeId: dto.nodeId,
     battery: dto.battery,
-    timestamp: dto.timestamp,
+    reachedAt: dto.reachedAt,
   };
 }

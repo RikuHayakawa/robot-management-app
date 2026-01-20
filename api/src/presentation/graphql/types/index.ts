@@ -34,18 +34,18 @@ export const NodeType = {
 /**
  * Result DTO → GraphQL WaypointLog 形。node/robot は field resolver。
  * parent.nodeId / parent.robotId を number のまま持たせる。
- * timestamp は Date のまま返し、DateTime スカラーが ISO 文字列に serialize する。
+ * reachedAt は Date のまま返し、DateTime スカラーが ISO 文字列に serialize する。
  */
 export const WaypointLogType = {
   from(
     dto: GetWaypointLogsByRobotIdResultDto
-  ): { id: string; robotId: number; nodeId: number; battery: number; timestamp: Date } {
+  ): { id: string; robotId: number; nodeId: number; battery: number; reachedAt: Date } {
     return {
       id: String(dto.id),
       robotId: dto.robotId,
       nodeId: dto.nodeId,
       battery: dto.battery,
-      timestamp: dto.timestamp,
+      reachedAt: dto.reachedAt,
     };
   },
 };

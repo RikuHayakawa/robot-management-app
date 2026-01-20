@@ -17,7 +17,7 @@ type WaypointLogSelectResult = WaypointLogGetPayload<{
     robotId: true;
     nodeId: true;
     battery: true;
-    timestamp: true;
+    reachedAt: true;
   };
 }>;
 
@@ -33,13 +33,13 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
   ): Promise<GetWaypointLogsByRobotIdResultDto[]> {
     const waypointLogs = await prisma.waypointLog.findMany({
       where: { robotId },
-      orderBy: { timestamp: "desc" },
+      orderBy: { reachedAt: "desc" },
       select: {
         id: true,
         robotId: true,
         nodeId: true,
         battery: true,
-        timestamp: true,
+        reachedAt: true,
       },
     });
 
@@ -50,7 +50,7 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
           log.robotId,
           log.nodeId,
           log.battery,
-          log.timestamp,
+          log.reachedAt,
         )
     );
   }
@@ -68,10 +68,10 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
       ? {
           robotId,
           OR: [
-            { timestamp: { lt: new Date(cursor.timestamp) } },
+            { reachedAt: { lt: new Date(cursor.reachedAt) } },
             {
               AND: [
-                { timestamp: new Date(cursor.timestamp) },
+                { reachedAt: new Date(cursor.reachedAt) },
                 { id: { lt: cursor.id } },
               ],
             },
@@ -80,14 +80,14 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
       : { robotId };
     const rows = await prisma.waypointLog.findMany({
       where,
-      orderBy: [{ timestamp: "desc" }, { id: "desc" }],
+      orderBy: [{ reachedAt: "desc" }, { id: "desc" }],
       take,
       select: {
         id: true,
         robotId: true,
         nodeId: true,
         battery: true,
-        timestamp: true,
+        reachedAt: true,
       },
     });
     const hasNextPage = rows.length > args.limit;
@@ -98,7 +98,7 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
           r.robotId,
           r.nodeId,
           r.battery,
-          r.timestamp,
+          r.reachedAt,
         )
     );
     const nextCursor =

@@ -7,7 +7,7 @@ query WaypointLogsByRobotId($id: ID!, $limit: Int, $after: String) {
           robotId
           nodeId
           battery
-          timestamp
+          reachedAt
           node {
             id
             name

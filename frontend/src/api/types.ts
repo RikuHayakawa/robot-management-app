@@ -20,7 +20,7 @@ export interface WaypointLog {
   robotId: number;
   nodeId: number;
   battery: number;
-  timestamp: string;
+  reachedAt: string;
 }
 
 export interface WaypointLogWithNode extends WaypointLog {

@@ -23,7 +23,7 @@ export interface WaypointLogResponse {
   battery: number;
 
   /**
-   * Timestamp
+   * その地点に到達した日時
    */
-  timestamp: Date;
+  reachedAt: Date;
 }

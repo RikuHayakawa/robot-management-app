@@ -29,7 +29,7 @@ export const waypointLogsApi = {
           robotId: item.robotId,
           nodeId: item.nodeId,
           battery: item.battery,
-          timestamp: item.timestamp,
+          reachedAt: item.reachedAt,
           node,
         };
       });
@@ -48,7 +48,7 @@ export const waypointLogsApi = {
         robotId: Number(n.robotId),
         nodeId: Number(n.nodeId),
         battery: n.battery,
-        timestamp: n.timestamp,
+        reachedAt: n.reachedAt,
         node,
       };
     });

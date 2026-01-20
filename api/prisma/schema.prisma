@@ -26,7 +26,7 @@ model WaypointLog {
   nodeId    Int
   node      Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   battery   Int
-  timestamp DateTime
+  reachedAt DateTime
 }
 
 model Node {

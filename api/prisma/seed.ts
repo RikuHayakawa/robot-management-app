@@ -216,7 +216,7 @@ async function main() {
             robotId: robot.id,
             nodeId: nodes[nodeIndex].id,
             battery: batteries[i],
-            timestamp: ts,
+            reachedAt: ts,
           },
         });
       })

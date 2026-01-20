@@ -156,9 +156,9 @@ export interface components {
             battery: number;
             /**
              * Format: date-time
-             * @description Timestamp
+             * @description その地点に到達した日時
              */
-            timestamp: string;
+            reachedAt: string;
         };
         /** @description カーソルペジネーション付きレスポンス */
         CursorPaginatedResponse_WaypointLogResponse_: {

@@ -27,10 +27,10 @@ export const WaypointLogTable = ({ waypointLogs }: WaypointLogTableProps) => {
       ),
     },
     {
-      key: 'timestamp',
+      key: 'reachedAt',
       label: '到達時刻',
       render: (log) => (
-        <span className="text-foreground">{formatDateTimeWithTime(log.timestamp)}</span>
+        <span className="text-foreground">{formatDateTimeWithTime(log.reachedAt)}</span>
       ),
     },
   ];

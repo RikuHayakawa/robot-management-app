@@ -37,21 +37,21 @@ export function decodeRobotCursor(s: string): { id: number } | null {
 }
 
 export function encodeWaypointLogCursor(dto: {
-  timestamp: Date;
+  reachedAt: Date;
   id: number;
 }): string {
   return encode({
-    timestamp: dto.timestamp.toISOString(),
+    reachedAt: dto.reachedAt.toISOString(),
     id: dto.id,
   });
 }
 
 export function decodeWaypointLogCursor(
   s: string
-): { timestamp: string; id: number } | null {
-  const o = decode<{ timestamp?: unknown; id?: unknown }>(s);
-  if (o == null || typeof o.timestamp !== "string" || typeof o.id !== "number") {
+): { reachedAt: string; id: number } | null {
+  const o = decode<{ reachedAt?: unknown; id?: unknown }>(s);
+  if (o == null || typeof o.reachedAt !== "string" || typeof o.id !== "number") {
     return null;
   }
-  return { timestamp: o.timestamp, id: o.id };
+  return { reachedAt: o.reachedAt, id: o.id };
 }
