@@ -1,4 +1,4 @@
-## Getting Started
+# Robot Management Frontend
 
 - パッケージのインストール
 
@@ -10,12 +10,6 @@ pnpm i
 
 ```bash
 pnpm dev -p <port_number>
-```
-
-- OpenAPIのスキーマを生成
-
-```bash
-pnpm generate:schema
 ```
 
 - ビルド
