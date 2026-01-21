@@ -28,7 +28,7 @@ const menuItems: MenuItem[] = [
 
 const bottomMenuItems: MenuItem[] = [
   { id: 'settings', label: '設定', icon: SettingsIcon, href: appPaths.settings },
-  { id: 'logout', label: 'ログアウト', icon: LogoutIcon, onClick: onClickLogout },
+  // { id: 'logout', label: 'ログアウト', icon: LogoutIcon, onClick: onClickLogout },
 ];
 
 export const PageSidebar = () => {
