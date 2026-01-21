@@ -23,7 +23,8 @@ export function createMockRobot(overrides?: Partial<Robot>): Robot {
   return new Robot(
     overrides?.id ?? 1,
     overrides?.name ?? "TestRobot",
-    overrides?.status ?? "idle",
-    overrides?.currentNodeId ?? null
+    overrides?.isActive ?? true,
+    overrides?.createdAt ?? new Date(),
+    overrides?.updatedAt ?? new Date()
   );
 }
