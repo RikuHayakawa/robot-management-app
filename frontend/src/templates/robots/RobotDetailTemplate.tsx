@@ -23,11 +23,11 @@ export const RobotDetailTemplate = ({ robotId }: RobotDetailTemplateProps) => {
   const isLoading = isLoadingRobot || isLoadingLogs || isLoadingNodes;
   const currentNodeId = waypointLogs[0]?.nodeId;
 
-  if (isLoading) {
+  if (!robot || isLoading && (!waypointLogs || waypointLogs.length === 0)) {
     return <Loading />;
   }
 
-  if (robotError || !robot) {
+  if (robotError) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center">

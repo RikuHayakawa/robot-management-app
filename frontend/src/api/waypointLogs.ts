@@ -11,20 +11,22 @@ const restNodesApi = new NodesApi(apiClient);
 const gqlApi = new WaypointLogsGraphQLApi(getInstance());
 
 export const waypointLogsApi = {
-  async findByRobotId(robotId: number, mode: ApiMode): Promise<WaypointLogWithNode[]> {
+  async findByRobotId(
+    robotId: number,
+    mode: ApiMode,
+    opts?: { onRow?: (w: WaypointLogWithNode) => void },
+  ): Promise<WaypointLogWithNode[]> {
     if (mode === 'rest') {
       const data = await restWaypointLogsApi.getWaypointLogsByRobotId({ id: robotId });
-      const nodeIds = [...new Set(data.items.map((i) => i.nodeId))];
-      const nodeResults = await Promise.all(
-        nodeIds.map((id) => restNodesApi.getNodeById({ id })),
-      );
-      const nodeMap = new Map<number, Node>();
-      nodeResults.forEach((n) => nodeMap.set(n.id, n));
-
-      return data.items.map((item) => {
-        const node = nodeMap.get(item.nodeId);
-        if (!node) throw new Error(`Node not found: ${item.nodeId}`);
-        return {
+      const result: WaypointLogWithNode[] = [];
+      for (const item of data.items) {
+        const nodeRes = await restNodesApi.getNodeById({ id: item.nodeId });
+        const node: Node = {
+          id: nodeRes.id,
+          name: nodeRes.name,
+          position: { x: nodeRes.position.x, y: nodeRes.position.y },
+        };
+        const merged: WaypointLogWithNode = {
           id: item.id,
           robotId: item.robotId,
           nodeId: item.nodeId,
@@ -32,7 +34,10 @@ export const waypointLogsApi = {
           reachedAt: item.reachedAt,
           node,
         };
-      });
+        result.push(merged);
+        opts?.onRow?.(merged);
+      }
+      return result;
     }
 
     const conn = await gqlApi.getWaypointLogsByRobotId(robotId);

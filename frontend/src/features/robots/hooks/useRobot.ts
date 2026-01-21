@@ -5,11 +5,11 @@ import { useApiSettings } from '@/contexts/ApiSettingsContext';
 import type { Robot } from '../types';
 
 export const useRobot = (id: number) => {
-  const { mode } = useApiSettings();
+  const { mode, isModeReady } = useApiSettings();
 
   return useQuery<Robot>({
     queryKey: QueryKeys.robot.byId(id, mode),
     queryFn: () => robotsApi.findById(id, mode),
-    enabled: !!id,
+    enabled: !!id && isModeReady,
   });
 };
