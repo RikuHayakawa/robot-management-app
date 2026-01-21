@@ -38,7 +38,7 @@ export function createApp(deps: CreateAppDeps): Express {
     app.use("/docs", swaggerUi.serve);
     app.get("/docs", swaggerUi.setup(swaggerDocument));
   } catch (error) {
-    console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
+    console.warn("API 仕様書が見つかりません。'npm run tsoa:spec' を実行してください。");
   }
 
   app.use(

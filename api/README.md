@@ -5,26 +5,24 @@ Robot管理システムのバックエンドAPIサーバーです。
 ## 必要な環境
 
 - Node.js 24.12.0 (`.node-version`を参照)
-- pnpm 10.28.0
+
+## .env の作成
+
+`.env.example` をコピーして `.env` を作成します。`npm run setup:init` および `npm run setup:dev` では自動作成されます。手動で行う場合：
+
+```bash
+cp .env.example .env
+```
+
+必要に応じて `.env` 内の値（`DATABASE_URL`、`CORS_ORIGIN`、`PORT` など）を編集してください。
 
 ## 初回セットアップ
 
 git clone後、以下のコマンドを1つ実行するだけでセットアップと起動が完了します：
 
 ```bash
-pnpm setup:dev
+npm run setup:dev
 ```
-
-このコマンドは以下を自動的に実行します：
-
-1. `.env`ファイルの作成（`.env.example`からコピー）
-2. 依存関係のインストール（`better-sqlite3`のネイティブモジュールも自動ビルド）
-3. Prismaクライアントの生成
-4. データベースマイグレーションの実行
-5. TSOAルートとAPI仕様書の生成
-6. 開発サーバーの起動
-
-> **注意**: pnpm v10以降では、ネイティブモジュールのビルドスクリプトはデフォルトでブロックされます。このプロジェクトでは`package.json`の`pnpm.onlyBuiltDependencies`に`better-sqlite3`を指定しているため、自動的にビルドされます。
 
 ## 手動セットアップ
 
@@ -32,28 +30,8 @@ pnpm setup:dev
 
 ```bash
 # セットアップのみ（起動しない）
-pnpm setup:init
+npm run setup:init
 
 # 開発サーバーを起動
-pnpm dev
+npm run dev
 ```
-
-## 利用可能なコマンド
-
-### 開発
-
-- `pnpm dev` - 開発サーバーを起動（ts-node使用）
-- `pnpm start` - 本番用サーバーを起動（ビルド済みファイルを使用）
-- `pnpm build` - TypeScriptをコンパイル
-
-### データベース
-
-- `pnpm prisma:generate` - Prismaクライアントを生成
-- `pnpm prisma:migrate` - データベースマイグレーションを実行
-- `pnpm prisma:studio` - Prisma Studioを起動（データベースGUI）
-
-### API仕様書
-
-- `pnpm tsoa:routes` - TSOAルートを生成
-- `pnpm tsoa:spec` - OpenAPI仕様書を生成
-

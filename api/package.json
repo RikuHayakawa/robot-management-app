@@ -9,10 +9,10 @@
     "dev": "ts-node src/server.ts",
     "start": "node dist/server.js",
     "postinstall": "prisma generate",
-    "setup": "pnpm install && pnpm prisma:migrate",
+    "setup": "npm install && npm run prisma:migrate",
     "setup:env": "cp .env.example .env || true",
-    "setup:init": "pnpm setup:env && pnpm install && pnpm prisma:generate && pnpm prisma:migrate && pnpm tsoa:routes && pnpm tsoa:spec",
-    "setup:dev": "pnpm setup:init && pnpm dev",
+    "setup:init": "npm run setup:env && npm install && npm run prisma:generate && npm run prisma:migrate && npm run tsoa:routes && npm run tsoa:spec",
+    "setup:dev": "npm run setup:init && npm run dev",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
@@ -27,14 +27,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.28.0",
   "prisma": {
     "seed": "ts-node src/infrastructure/prisma/seed.ts"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
   },
   "dependencies": {
     "dotenv": "^16.4.5",
