@@ -5,7 +5,7 @@ import { useApiSettings } from '@/contexts/ApiSettingsContext';
 import type { ApiMode } from '@/api';
 
 const OPTIONS = [
-  { value: 'rest' as const, label: 'REST API' },
+  { value: 'rest' as const, label: 'REST' },
   { value: 'graphql' as const, label: 'GraphQL' },
 ];
 
