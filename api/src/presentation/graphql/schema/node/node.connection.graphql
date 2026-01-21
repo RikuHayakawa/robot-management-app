@@ -1,0 +1,9 @@
+type NodeEdge {
+  node: Node!
+  cursor: String!
+}
+
+type NodeConnection {
+  edges: [NodeEdge!]!
+  pageInfo: PageInfo!
+}

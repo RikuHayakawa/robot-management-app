@@ -1,0 +1,6 @@
+type Query {
+  robots(limit: Int, after: String): RobotConnection!
+  robot(id: ID!): Robot
+  nodes(limit: Int, after: String): NodeConnection!
+  node(id: ID!): Node
+}

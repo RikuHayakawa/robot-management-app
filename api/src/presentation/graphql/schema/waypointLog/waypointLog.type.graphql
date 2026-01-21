@@ -1,0 +1,9 @@
+type WaypointLog {
+  id: ID!
+  robotId: ID!
+  nodeId: ID!
+  battery: Int!
+  reachedAt: DateTime!
+  node: Node!
+  robot: Robot!
+}

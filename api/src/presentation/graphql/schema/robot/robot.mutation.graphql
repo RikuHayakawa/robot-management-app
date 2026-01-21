@@ -1,0 +1,5 @@
+type Mutation {
+  createRobot(input: CreateRobotInput!): Robot!
+  updateRobot(id: ID!, input: UpdateRobotInput!): Robot!
+  deleteRobot(id: ID!): Boolean!
+}

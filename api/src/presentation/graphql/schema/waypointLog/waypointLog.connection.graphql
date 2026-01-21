@@ -1,0 +1,9 @@
+type WaypointLogEdge {
+  node: WaypointLog!
+  cursor: String!
+}
+
+type WaypointLogConnection {
+  edges: [WaypointLogEdge!]!
+  pageInfo: PageInfo!
+}

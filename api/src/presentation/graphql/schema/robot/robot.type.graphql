@@ -1,0 +1,8 @@
+type Robot {
+  id: ID!
+  name: String!
+  isActive: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  waypointLogs(limit: Int, after: String): WaypointLogConnection!
+}

@@ -1,0 +1,9 @@
+input CreateRobotInput {
+  name: String!
+  isActive: Boolean!
+}
+
+input UpdateRobotInput {
+  name: String
+  isActive: Boolean
+}

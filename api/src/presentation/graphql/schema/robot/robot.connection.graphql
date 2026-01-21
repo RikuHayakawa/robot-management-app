@@ -1,0 +1,9 @@
+type RobotEdge {
+  node: Robot!
+  cursor: String!
+}
+
+type RobotConnection {
+  edges: [RobotEdge!]!
+  pageInfo: PageInfo!
+}

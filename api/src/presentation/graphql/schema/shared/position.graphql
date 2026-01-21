@@ -1,0 +1,4 @@
+type Position {
+  x: Float!
+  y: Float!
+}
