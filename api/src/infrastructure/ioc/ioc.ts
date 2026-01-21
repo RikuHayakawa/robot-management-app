@@ -11,8 +11,8 @@ import { robotRepository } from "../db/repositories/robotRepository";
 import { robotQueryService } from "../db/queries/robotQueryService";
 import { nodeQueryService } from "../db/queries/nodeQueryService";
 import { waypointLogQueryService } from "../db/queries/waypointLogQueryService";
-import { RobotController } from "../../presentation/http/controllers/robotController";
-import { NodeController } from "../../presentation/http/controllers/nodeController";
+import { RobotController } from "../../presentation/rest/controllers/robotController";
+import { NodeController } from "../../presentation/rest/controllers/nodeController";
 import { ServiceIdentifier } from "tsoa";
 
 /**
