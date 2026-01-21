@@ -1,9 +1,5 @@
 import { Robot } from "./Robot";
 
-/**
- * Robotリポジトリインターフェース
- * Domain層に定義し、永続化技術を意識しない
- */
 export interface IRobotRepository {
   /**
    * IDでRobotを取得

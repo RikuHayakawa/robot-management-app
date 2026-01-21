@@ -14,7 +14,7 @@ export class Robot {
    */
   private validate(): void {
     if (!this.name || this.name.trim().length === 0) {
-      throw new Error("Robot name cannot be empty");
+      throw new Error("ロボット名は必須です");
     }
   }
 }
