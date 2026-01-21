@@ -30,6 +30,26 @@ export class RobotQueryService implements IRobotQueryService {
   }
 
   /**
+   * 複数IDでRobotを一括取得（DataLoader用。入力idsの順で (Dto|null)[] を返す）
+   */
+  public async findByIds(
+    ids: number[]
+  ): Promise<(GetRobotByIdResultDto | null)[]> {
+    const robots = await robotRepository.findByIds(ids);
+    return robots.map((r) =>
+      r
+        ? new GetRobotByIdResultDto(
+            r.id,
+            r.name,
+            r.isActive,
+            r.createdAt!,
+            r.updatedAt!
+          )
+        : null
+    );
+  }
+
+  /**
    * すべてのRobotを取得
    */
   public async findAll(): Promise<GetRobotByIdResultDto[]> {

@@ -36,6 +36,26 @@ export class NodeQueryService implements INodeQueryService {
   }
 
   /**
+   * 複数IDでNodeを一括取得（DataLoader用。入力idsの順で (Dto|null)[] を返す）
+   */
+  public async findByIds(
+    ids: number[]
+  ): Promise<(GetNodeByIdResultDto | null)[]> {
+    if (ids.length === 0) return [];
+    const rows = await prisma.node.findMany({
+      where: { id: { in: ids } },
+      select: { id: true, name: true, x: true, y: true },
+    });
+    const map = new Map(
+      rows.map((r) => [
+        r.id,
+        new GetNodeByIdResultDto(r.id, r.name, r.x, r.y),
+      ])
+    );
+    return ids.map((id) => map.get(id) ?? null);
+  }
+
+  /**
    * すべてのNodeを取得
    */
   public async findAll(): Promise<GetNodeByIdResultDto[]> {

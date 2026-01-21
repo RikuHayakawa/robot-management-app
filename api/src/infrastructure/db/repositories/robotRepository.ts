@@ -71,6 +71,25 @@ export class RobotRepository implements IRobotRepository {
   }
 
   /**
+   * 複数IDでRobotを一括取得（DataLoader用。入力idsの順で (Robot|null)[] を返す）
+   */
+  public async findByIds(ids: number[]): Promise<(Robot | null)[]> {
+    if (ids.length === 0) return [];
+    const rows = await prisma.robot.findMany({
+      where: { id: { in: ids } },
+      select: {
+        id: true,
+        name: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    const map = new Map(rows.map((r) => [r.id, this.toDomain(r)]));
+    return ids.map((id) => map.get(id) ?? null);
+  }
+
+  /**
    * Robotを作成
    */
   public async create(robot: Robot): Promise<Robot> {

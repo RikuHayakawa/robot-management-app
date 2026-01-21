@@ -11,6 +11,11 @@ export interface INodeQueryService {
   findById(id: number): Promise<GetNodeByIdResultDto | null>;
 
   /**
+   * 複数IDでNodeを一括取得（DataLoader用。入力idsの順で (Dto|null)[] を返す）
+   */
+  findByIds(ids: number[]): Promise<(GetNodeByIdResultDto | null)[]>;
+
+  /**
    * すべてのNodeを取得
    */
   findAll(): Promise<GetNodeByIdResultDto[]>;

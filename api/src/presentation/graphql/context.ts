@@ -1,3 +1,6 @@
+import DataLoader from "dataloader";
+import type { GetNodeByIdResultDto } from "../../application/nodes/dto";
+import type { GetRobotByIdResultDto } from "../../application/robots/dto";
 import { CreateRobotService } from "../../application/robots/commands/create";
 import { UpdateRobotService } from "../../application/robots/commands/update";
 import { DeleteRobotService } from "../../application/robots/commands/delete";
@@ -20,6 +23,8 @@ export type GraphQLContext = {
   getWaypointLogsByRobotIdService: GetWaypointLogsByRobotIdService;
   getAllNodesService: GetAllNodesService;
   getNodeByIdService: GetNodeByIdService;
+  nodeLoader: DataLoader<number, GetNodeByIdResultDto | null>;
+  robotLoader: DataLoader<number, GetRobotByIdResultDto | null>;
 };
 
 export function createGraphQLContext(): GraphQLContext {
@@ -34,6 +39,13 @@ export function createGraphQLContext(): GraphQLContext {
   const getAllNodesService = new GetAllNodesService(nodeQueryService);
   const getNodeByIdService = new GetNodeByIdService(nodeQueryService);
 
+  const nodeLoader = new DataLoader<number, GetNodeByIdResultDto | null>(
+    async (ids) => nodeQueryService.findByIds([...ids])
+  );
+  const robotLoader = new DataLoader<number, GetRobotByIdResultDto | null>(
+    async (ids) => robotQueryService.findByIds([...ids])
+  );
+
   return {
     getAllRobotsService,
     getRobotByIdService,
@@ -43,5 +55,7 @@ export function createGraphQLContext(): GraphQLContext {
     getWaypointLogsByRobotIdService,
     getAllNodesService,
     getNodeByIdService,
+    nodeLoader,
+    robotLoader,
   };
 }

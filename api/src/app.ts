@@ -40,14 +40,14 @@ try {
   console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
 }
 
-// GraphQL
+// GraphQL（context はリクエストごとに生成し、DataLoader 初期化）
 app.use(
   "/graphql",
-  graphqlHTTP({
+  graphqlHTTP((_req, _res, _params) => ({
     schema,
     context: createGraphQLContext(),
     graphiql: true,
-  })
+  }))
 );
 
 // tsoa生成のルーター
