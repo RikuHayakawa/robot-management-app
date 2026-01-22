@@ -1,8 +1,8 @@
-import { encodeWaypointLogCursor } from "../../../../application/pagination/cursor";
-import { clampLimit } from "../../../../application/pagination/types";
+import { encodeWaypointLogCursor } from "../../../../application/shared/pagination/cursor";
+import { clampLimit } from "../../../../application/shared/pagination/clamp";
 import type { GraphQLContext } from "../../context";
 import { buildConnection } from "../../pagination/connection";
-import { WaypointLogType } from "../../types";
+import { WaypointLogType } from "../../types/WaypointLogType";
 
 export const robotField = {
   waypointLogs: async (

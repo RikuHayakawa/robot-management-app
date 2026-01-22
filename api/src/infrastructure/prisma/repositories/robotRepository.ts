@@ -1,4 +1,4 @@
-import prisma from "../clients";
+import type { PrismaClient } from "../../../generated/prisma/client";
 import { IRobotRepository } from "../../../domain/robots/IRobotRepository";
 import { Robot } from "../../../domain/robots/Robot";
 import { RobotGetPayload } from "../../../generated/prisma/models/Robot";
@@ -21,6 +21,8 @@ type RobotSelectResult = RobotGetPayload<{
  * DomainのIRobotRepositoryを実装し、Prismaを使用してデータベースアクセスを行う
  */
 export class RobotRepository implements IRobotRepository {
+  constructor(private readonly prisma: PrismaClient) {}
+
   /**
    * DB rowからRobotエンティティに変換
    */
@@ -35,26 +37,10 @@ export class RobotRepository implements IRobotRepository {
   }
 
   /**
-   * すべてのRobotを取得
-   */
-  public async findAll(): Promise<Robot[]> {
-    const robots = await prisma.robot.findMany({
-      select: {
-        id: true,
-        name: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    return robots.map((r) => this.toDomain(r));
-  }
-
-  /**
    * IDでRobotを取得
    */
   public async findById(id: number): Promise<Robot | null> {
-    const robot = await prisma.robot.findUnique({
+    const robot = await this.prisma.robot.findUnique({
       where: { id },
       select: {
         id: true,
@@ -71,29 +57,10 @@ export class RobotRepository implements IRobotRepository {
   }
 
   /**
-   * 複数IDでRobotを一括取得（DataLoader用。入力idsの順で (Robot|null)[] を返す）
-   */
-  public async findByIds(ids: number[]): Promise<(Robot | null)[]> {
-    if (ids.length === 0) return [];
-    const rows = await prisma.robot.findMany({
-      where: { id: { in: ids } },
-      select: {
-        id: true,
-        name: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    const map = new Map(rows.map((r) => [r.id, this.toDomain(r)]));
-    return ids.map((id) => map.get(id) ?? null);
-  }
-
-  /**
    * Robotを作成
    */
   public async create(robot: Robot): Promise<Robot> {
-    const created = await prisma.robot.create({
+    const created = await this.prisma.robot.create({
       data: {
         name: robot.name,
         isActive: robot.isActive,
@@ -113,7 +80,7 @@ export class RobotRepository implements IRobotRepository {
    * Robotを更新
    */
   public async update(robot: Robot): Promise<Robot> {
-    const updated = await prisma.robot.update({
+    const updated = await this.prisma.robot.update({
       where: { id: robot.id },
       data: {
         name: robot.name,
@@ -134,11 +101,8 @@ export class RobotRepository implements IRobotRepository {
    * Robotを削除
    */
   public async delete(id: number): Promise<void> {
-    await prisma.robot.delete({
+    await this.prisma.robot.delete({
       where: { id },
     });
   }
 }
-
-// シングルトンインスタンスをエクスポート
-export const robotRepository = new RobotRepository();

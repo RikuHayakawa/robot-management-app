@@ -7,7 +7,6 @@ const schemaPaths: string[] = [
   join(base, 'schema.graphql'),
   join(base, 'scalar', 'datetime.graphql'),
   join(base, 'common', 'pageInfo.graphql'),
-  join(base, 'common', 'connection.graphql'),
   join(base, 'common', 'position.graphql'),
   join(base, 'robot', 'robot.type.graphql'),
   join(base, 'robot', 'robot.connection.graphql'),

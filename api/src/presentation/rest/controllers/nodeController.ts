@@ -1,5 +1,5 @@
 import { Route, Get, Path, Query, Controller, OperationId } from "tsoa";
-import { clampLimit } from "../../../application/pagination/types";
+import { clampLimit } from "../../../application/shared/pagination/clamp";
 import { GetNodeByIdService } from "../../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../../application/nodes/queries/getAll";
 import { toNodeResponse } from "../mappers/nodes";

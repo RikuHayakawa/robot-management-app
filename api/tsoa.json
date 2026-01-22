@@ -1,7 +1,7 @@
 {
   "entryFile": "src/server.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/presentation/http/controllers/**/*Controller.ts"],
+  "controllerPathGlobs": ["src/presentation/rest/controllers/**/*Controller.ts"],
   "spec": {
     "outputDirectory": "src/generated",
     "specVersion": 3,
@@ -25,6 +25,6 @@
   "routes": {
     "routesDir": "src/generated",
     "basePath": "/",
-    "iocModule": "src/infrastructure/ioc/ioc"
+    "iocModule": "src/bootstrap/ioc"
   }
 }

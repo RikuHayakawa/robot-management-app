@@ -1,7 +1,7 @@
 import { GraphQLError } from "graphql";
 import { CreateRobotInputDto, UpdateRobotInputDto } from "../../../../application/robots/dto";
 import type { GraphQLContext } from "../../context";
-import { RobotType } from "../../types";
+import { RobotType } from "../../types/RobotType";
 
 export const robotMutation = {
   createRobot: async (

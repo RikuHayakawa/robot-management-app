@@ -7,11 +7,6 @@ export interface IRobotRepository {
   findById(id: number): Promise<Robot | null>;
 
   /**
-   * すべてのRobotを取得
-   */
-  findAll(): Promise<Robot[]>;
-
-  /**
    * Robotを作成
    */
   create(robot: Robot): Promise<Robot>;

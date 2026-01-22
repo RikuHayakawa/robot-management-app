@@ -2,7 +2,7 @@ import { Route, Get, Post, Put, Delete, Path, Body, Query, Controller } from "ts
 import { CreateRobotService } from "../../../application/robots/commands/create";
 import { UpdateRobotService } from "../../../application/robots/commands/update";
 import { DeleteRobotService } from "../../../application/robots/commands/delete";
-import { clampLimit } from "../../../application/pagination/types";
+import { clampLimit } from "../../../application/shared/pagination/clamp";
 import { GetAllRobotsService } from "../../../application/robots/queries/getAll";
 import { GetRobotByIdService } from "../../../application/robots/queries/getById";
 import { GetWaypointLogsByRobotIdService } from "../../../application/waypointLogs/queries/getByRobotId";

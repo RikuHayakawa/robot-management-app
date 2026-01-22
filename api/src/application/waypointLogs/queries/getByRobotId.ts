@@ -1,6 +1,5 @@
-import { clampLimit, DEFAULT_LIMIT } from "../../pagination/types";
-import type { PaginationInput } from "../../pagination/types";
-import type { PaginatedResult } from "../../pagination/types";
+import { clampLimit, DEFAULT_LIMIT } from "../../shared";
+import type { PaginationInput, PaginatedResult } from "../../shared";
 import { GetWaypointLogsByRobotIdResultDto } from "../dto";
 import { IWaypointLogQueryService } from "./interfaces/IWaypointLogQueryService";
 

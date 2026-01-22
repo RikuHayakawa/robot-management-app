@@ -1,8 +1,8 @@
-import { encodeNodeCursor } from "../../../../application/pagination/cursor";
-import { clampLimit } from "../../../../application/pagination/types";
+import { encodeNodeCursor } from "../../../../application/shared/pagination/cursor";
+import { clampLimit } from "../../../../application/shared/pagination/clamp";
 import type { GraphQLContext } from "../../context";
 import { buildConnection } from "../../pagination/connection";
-import { NodeType } from "../../types";
+import { NodeType } from "../../types/NodeType";
 
 export const nodeQuery = {
   nodes: async (

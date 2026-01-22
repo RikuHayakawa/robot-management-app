@@ -3,56 +3,56 @@ import cors from "cors";
 import { graphqlHTTP } from "express-graphql";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./generated/routes";
-import { schema } from "./presentation/graphql/schema";
-import { createGraphQLContext } from "./presentation/graphql/context";
+import { schema } from "./presentation/graphql";
+import type { AppConfig } from "./bootstrap/config";
+import type { GraphQLContext } from "./presentation/graphql/context";
 
-const app: Express = express();
+export type CreateAppDeps = {
+  config: AppConfig;
+  getGraphQLContext: () => GraphQLContext;
+};
 
-// CORS設定
-// 環境変数からオリジンを取得（カンマ区切りで複数指定可能）
-const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:3001";
-const allowedOrigins = corsOrigin.split(",").map((origin) => origin.trim());
+export function createApp(deps: CreateAppDeps): Express {
+  const app: Express = express();
 
-app.use(
-  cors({
-    origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
-    credentials: true,
-  })
-);
+  const allowedOrigins = deps.config.corsOrigin;
 
-// JSONボディパーサー
-app.use(express.json());
+  app.use(
+    cors({
+      origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
+      credentials: true,
+    })
+  );
 
-// ヘルスチェックエンドポイント
-app.get("/health", (req, res) => {
-  res.status(200).json({
-    status: "ok",
-    timestamp: new Date().toISOString(),
+  app.use(express.json());
+
+  app.get("/health", (req, res) => {
+    res.status(200).json({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+    });
   });
-});
 
-// Swagger UI
-try {
-  const swaggerDocument = require(`./generated/swagger.json`);
-  app.use("/docs", swaggerUi.serve);
-  app.get("/docs", swaggerUi.setup(swaggerDocument));
-} catch (error) {
-  console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
+  try {
+    const swaggerDocument = require(`./generated/swagger.json`);
+    app.use("/docs", swaggerUi.serve);
+    app.get("/docs", swaggerUi.setup(swaggerDocument));
+  } catch (error) {
+    console.warn("API 仕様書が見つかりません。'pnpm tsoa:spec' を実行してください。");
+  }
+
+  app.use(
+    "/graphql",
+    graphqlHTTP((_req, _res, _params) => ({
+      schema,
+      context: deps.getGraphQLContext(),
+      graphiql: true,
+    }))
+  );
+
+  const router = Router();
+  RegisterRoutes(router);
+  app.use(router);
+
+  return app;
 }
-
-// GraphQL（context はリクエストごとに生成し、DataLoader 初期化）
-app.use(
-  "/graphql",
-  graphqlHTTP((_req, _res, _params) => ({
-    schema,
-    context: createGraphQLContext(),
-    graphiql: true,
-  }))
-);
-
-// tsoa生成のルーター
-const router = Router();
-RegisterRoutes(router);
-app.use(router);
-
-export default app;

@@ -1,7 +1,11 @@
 import { GraphQLScalarType, Kind } from "graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { typeDefs } from "./schema/typeDefs";
-import { createResolvers } from "./resolvers";
+import { nodeQuery } from "./resolvers/query/node.query";
+import { robotQuery } from "./resolvers/query/robot.query";
+import { robotMutation } from "./resolvers/mutation/robot.mutation";
+import { robotField } from "./resolvers/field/robot.field";
+import { waypointLogField } from "./resolvers/field/waypointLog.field";
 
 const DateTimeScalar = new GraphQLScalarType({
   name: "DateTime",
@@ -13,7 +17,10 @@ const DateTimeScalar = new GraphQLScalarType({
 });
 
 const resolvers = {
-  ...createResolvers(),
+  Query: { ...robotQuery, ...nodeQuery },
+  Mutation: robotMutation,
+  Robot: robotField,
+  WaypointLog: waypointLogField,
   DateTime: DateTimeScalar,
 };
 

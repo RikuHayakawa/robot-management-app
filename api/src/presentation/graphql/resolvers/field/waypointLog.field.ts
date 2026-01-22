@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql";
 import type { GraphQLContext } from "../../context";
-import { NodeType, RobotType } from "../../types";
+import { NodeType } from "../../types/NodeType";
+import { RobotType } from "../../types/RobotType";
 
 export const waypointLogField = {
   node: async (parent: { nodeId: number }, _: unknown, ctx: GraphQLContext) => {

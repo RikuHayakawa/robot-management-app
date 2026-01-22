@@ -1,4 +1,4 @@
-import type { PaginatedResult } from "../../../pagination/types";
+import type { PaginatedResult } from "../../../shared";
 import { GetNodeByIdResultDto } from "../../dto";
 
 /**

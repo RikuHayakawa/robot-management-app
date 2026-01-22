@@ -1,12 +1,12 @@
 import {
   decodeWaypointLogCursor,
   encodeWaypointLogCursor,
-} from "../../../application/pagination/cursor";
-import type { PaginatedResult } from "../../../application/pagination/types";
+} from "../../../application/shared/pagination/cursor";
+import type { PaginatedResult } from "../../../application/shared/pagination/types";
 import { GetWaypointLogsByRobotIdResultDto } from "../../../application/waypointLogs/dto";
 import { IWaypointLogQueryService } from "../../../application/waypointLogs/queries/interfaces/IWaypointLogQueryService";
 import { WaypointLogGetPayload } from "../../../generated/prisma/models/WaypointLog";
-import prisma from "../clients";
+import type { PrismaClient } from "../../../generated/prisma/client";
 
 /**
  * Prismaのselect結果の型を取得
@@ -25,13 +25,15 @@ type WaypointLogSelectResult = WaypointLogGetPayload<{
  * WaypointLogクエリサービス実装
  */
 export class WaypointLogQueryService implements IWaypointLogQueryService {
+  constructor(private readonly prisma: PrismaClient) {}
+
   /**
    * Robot IDでWaypointLogを取得
    */
   public async findByRobotId(
     robotId: number
   ): Promise<GetWaypointLogsByRobotIdResultDto[]> {
-    const waypointLogs = await prisma.waypointLog.findMany({
+    const waypointLogs = await this.prisma.waypointLog.findMany({
       where: { robotId },
       orderBy: { reachedAt: "desc" },
       select: {
@@ -78,7 +80,7 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
           ],
         }
       : { robotId };
-    const rows = await prisma.waypointLog.findMany({
+    const rows = await this.prisma.waypointLog.findMany({
       where,
       orderBy: [{ reachedAt: "desc" }, { id: "desc" }],
       take,
@@ -108,6 +110,3 @@ export class WaypointLogQueryService implements IWaypointLogQueryService {
     return { items, nextCursor, hasNextPage };
   }
 }
-
-// シングルトンインスタンスをエクスポート
-export const waypointLogQueryService = new WaypointLogQueryService();

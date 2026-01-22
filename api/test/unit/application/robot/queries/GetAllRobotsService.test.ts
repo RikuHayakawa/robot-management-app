@@ -3,7 +3,7 @@ import { GetAllRobotsService } from "../../../../../src/application/robots/queri
 import {
   DEFAULT_LIMIT,
   MAX_LIMIT,
-} from "../../../../../src/application/pagination/types";
+} from "../../../../../src/application/shared/pagination/clamp";
 import {
   createMockRobotQueryService,
   createMockGetRobotByIdResultDto,

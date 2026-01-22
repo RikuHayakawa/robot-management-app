@@ -1,20 +1,4 @@
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-
-/**
- * データベースクライアントを作成
- */
-function createPrismaClient(): PrismaClient {
-  const databaseUrl = process.env.DATABASE_URL || "file:./dev.db";
-  const filePath = databaseUrl.replace(/^file:/, "");
-  const adapter = new PrismaBetterSqlite3({ url: filePath });
-
-  return new PrismaClient({
-    adapter,
-  });
-}
-
-const prisma = createPrismaClient();
+import prisma from "./client";
 
 /**
  * node.md の座標（id 0〜81）。複数 point がある場合はコメントアウトされていない方を採用。

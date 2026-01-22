@@ -1,7 +1,8 @@
-import app from "./app";
+import "dotenv/config";
+import { bootstrap } from "./bootstrap/bootstrap";
 
-const PORT = process.env.PORT || 3000;
+const { app, config } = bootstrap();
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(config.port, () => {
+  console.log(`Server is running on http://localhost:${config.port}`);
 });

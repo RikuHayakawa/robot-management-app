@@ -1,8 +1,8 @@
-import { encodeRobotCursor } from "../../../../application/pagination/cursor";
-import { clampLimit } from "../../../../application/pagination/types";
+import { encodeRobotCursor } from "../../../../application/shared/pagination/cursor";
+import { clampLimit } from "../../../../application/shared/pagination/clamp";
 import type { GraphQLContext } from "../../context";
 import { buildConnection } from "../../pagination/connection";
-import { RobotType } from "../../types";
+import { RobotType } from "../../types/RobotType";
 
 export const robotQuery = {
   robots: async (

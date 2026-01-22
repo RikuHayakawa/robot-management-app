@@ -9,7 +9,6 @@ import { Robot } from "../../../src/domain/robots/Robot";
 export function createMockRobotRepository(): IRobotRepository {
   return {
     findById: vi.fn(),
-    findAll: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
     delete: vi.fn(),

@@ -1,24 +1,26 @@
 import {
   decodeNodeCursor,
   encodeNodeCursor,
-} from "../../../application/pagination/cursor";
-import type { PaginatedResult } from "../../../application/pagination/types";
+} from "../../../application/shared/pagination/cursor";
+import type { PaginatedResult } from "../../../application/shared/pagination/types";
 import { GetNodeByIdResultDto } from "../../../application/nodes/dto";
 import { INodeQueryService } from "../../../application/nodes/queries/interfaces/INodeQueryService";
-import prisma from "../clients";
+import type { PrismaClient } from "../../../generated/prisma/client";
 
 /**
  * Nodeクエリサービス実装
  * Prismaを直接使用してDTOを返す（Domainエンティティを経由しない）
  */
 export class NodeQueryService implements INodeQueryService {
+  constructor(private readonly prisma: PrismaClient) {}
+
   /**
    * IDでNodeを取得
    */
   public async findById(
     id: number
   ): Promise<GetNodeByIdResultDto | null> {
-    const node = await prisma.node.findUnique({
+    const node = await this.prisma.node.findUnique({
       where: { id },
       select: {
         id: true,
@@ -42,7 +44,7 @@ export class NodeQueryService implements INodeQueryService {
     ids: number[]
   ): Promise<(GetNodeByIdResultDto | null)[]> {
     if (ids.length === 0) return [];
-    const rows = await prisma.node.findMany({
+    const rows = await this.prisma.node.findMany({
       where: { id: { in: ids } },
       select: { id: true, name: true, x: true, y: true },
     });
@@ -59,7 +61,7 @@ export class NodeQueryService implements INodeQueryService {
    * すべてのNodeを取得
    */
   public async findAll(): Promise<GetNodeByIdResultDto[]> {
-    const nodes = await prisma.node.findMany({
+    const nodes = await this.prisma.node.findMany({
       select: {
         id: true,
         name: true,
@@ -80,10 +82,10 @@ export class NodeQueryService implements INodeQueryService {
   public async findAllPaginated(args: {
     limit: number;
     cursor?: string;
-  }): Promise<PaginatedResult<GetNodeByIdResultDto>> {
+  }  ): Promise<PaginatedResult<GetNodeByIdResultDto>> {
     const after = args.cursor ? decodeNodeCursor(args.cursor) : null;
     const take = args.limit + 1;
-    const rows = await prisma.node.findMany({
+    const rows = await this.prisma.node.findMany({
       where: after ? { id: { gt: after.id } } : undefined,
       orderBy: { id: "asc" },
       take,
@@ -98,6 +100,3 @@ export class NodeQueryService implements INodeQueryService {
     return { items, nextCursor, hasNextPage };
   }
 }
-
-// シングルトンインスタンスをエクスポート
-export const nodeQueryService = new NodeQueryService();

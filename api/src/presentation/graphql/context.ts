@@ -9,10 +9,7 @@ import { GetRobotByIdService } from "../../application/robots/queries/getById";
 import { GetWaypointLogsByRobotIdService } from "../../application/waypointLogs/queries/getByRobotId";
 import { GetNodeByIdService } from "../../application/nodes/queries/getById";
 import { GetAllNodesService } from "../../application/nodes/queries/getAll";
-import { robotRepository } from "../../infrastructure/db/repositories/robotRepository";
-import { robotQueryService } from "../../infrastructure/db/queries/robotQueryService";
-import { nodeQueryService } from "../../infrastructure/db/queries/nodeQueryService";
-import { waypointLogQueryService } from "../../infrastructure/db/queries/waypointLogQueryService";
+import type { Adapters } from "../../bootstrap/adapters";
 
 export type GraphQLContext = {
   getAllRobotsService: GetAllRobotsService;
@@ -27,7 +24,14 @@ export type GraphQLContext = {
   robotLoader: DataLoader<number, GetRobotByIdResultDto | null>;
 };
 
-export function createGraphQLContext(): GraphQLContext {
+export function createGraphQLContext(adapters: Adapters): GraphQLContext {
+  const {
+    robotRepository,
+    robotQueryService,
+    nodeQueryService,
+    waypointLogQueryService,
+  } = adapters;
+
   const getAllRobotsService = new GetAllRobotsService(robotQueryService);
   const getRobotByIdService = new GetRobotByIdService(robotQueryService);
   const createRobotService = new CreateRobotService(robotRepository);

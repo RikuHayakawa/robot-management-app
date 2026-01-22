@@ -3,7 +3,7 @@ import {
   clampLimit,
   DEFAULT_LIMIT,
   MAX_LIMIT,
-} from "../../../../src/application/pagination/types";
+} from "../../../../src/application/shared/pagination/clamp";
 
 describe("clampLimit", () => {
   it("should return DEFAULT_LIMIT when limit is undefined", () => {
