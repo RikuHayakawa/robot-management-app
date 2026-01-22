@@ -35,12 +35,10 @@ export function createApp(deps: CreateAppDeps): Express {
 
   try {
     const swaggerDocument = require(`./generated/swagger.json`);
-    app.use("/docs", swaggerUi.serve);
-    app.get("/docs", swaggerUi.setup(swaggerDocument));
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   } catch (error) {
     console.warn("API 仕様書が見つかりません。'npm run tsoa:spec' を実行してください。");
   }
-
   app.use(
     "/graphql",
     graphqlHTTP((_req, _res, _params) => ({
